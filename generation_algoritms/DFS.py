@@ -132,7 +132,5 @@ class DFSMazeGenerator(MazeGenerator):
         im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=0, vmax=2, animated=True)
         ims.append([im])
 
-        ani = animation.ArtistAnimation(fig, ims, interval=100, blit=True, repeat_delay=1000)
-
-        # plt.show()
-        return ani  # Return the animation object for further use if needed
+        # Return the animation object for further use if needed
+        return animation.ArtistAnimation(fig, ims, interval=100, blit=True, repeat_delay=1000)
