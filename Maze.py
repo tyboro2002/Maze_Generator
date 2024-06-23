@@ -3,7 +3,10 @@ import matplotlib.pyplot as plt
 
 
 class Maze:
-    def __init__(self, width, height):
+    """
+    The Maze class is a class to hold the maze we generated.
+    """
+    def __init__(self, width: int, height: int) -> None:
         self.width = width
         self.height = height
         # Create a grid with walls (2) and cells (0)
@@ -12,18 +15,39 @@ class Maze:
         self.grid[0::2, :] = 2  # Horizontal walls
         self.grid[:, 0::2] = 2  # Vertical walls
 
-    def reset(self):
+    def reset(self) -> None:
+        """
+        Reset the maze to its initial state.
+        """
         self.grid.fill(2)
         self.grid[1::2, 1::2] = 0
 
-    def display(self):
+    def display(self) -> None:
+        """
+        Display the maze on the screen.
+        """
         plt.imshow(self.grid, cmap='binary', vmin=0, vmax=2)
         plt.xticks([]), plt.yticks([])
-        # plt.show()
+        plt.show()
+
+    def save(self, filename: str) -> None:
+        """
+        Save the maze to a file with the given filename.
+        :param filename: The name of the file to save.
+        """
+        # Adjust figure size based on maze dimensions
+        fig, ax = plt.subplots(figsize=(max(self.width / 5, 10), max(self.height / 5, 10)))
+        ax.set_xticks([]), ax.set_yticks([])
+        ax.imshow(self.grid, cmap='binary', vmin=0, vmax=2)
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
 
 
 class MazeGenerator:
-    def __init__(self, maze):
+    """
+    A super class to bundle the maze generator classes.
+    """
+    def __init__(self, maze: Maze) -> None:
         self.maze = maze
 
     def generate(self):
@@ -31,3 +55,22 @@ class MazeGenerator:
 
     def animate(self):
         raise NotImplementedError("You should implement this method in subclasses.")
+
+    def run(
+            self,
+            maze_filename: str,
+            animate: bool = True,
+            animation_filename: str = "maze_animation.mp4"
+    ) -> None:
+        """
+        Do a full maze generation run (possibly save the animation of the generation).
+        """
+        if not animate:
+            self.generate()
+            self.maze.save(maze_filename)
+        else:
+            print("generating animation")
+            ani = self.animate()
+            print("saving animation")
+            ani.save(animation_filename, writer='ffmpeg')
+            self.maze.save(maze_filename)
