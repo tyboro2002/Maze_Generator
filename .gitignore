@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# generated files
+animations/
+mazes/
+
 # Distribution / packaging
 .Python
 build/
