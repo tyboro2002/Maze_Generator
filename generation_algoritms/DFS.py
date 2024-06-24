@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt, animation
 from matplotlib.animation import Animation
 
 from Maze import MazeGenerator
+from settings import Structures
 
 
 class DFSMazeGenerator(MazeGenerator):
@@ -51,14 +52,14 @@ class DFSMazeGenerator(MazeGenerator):
                 loop = False
             x, y = self.stack[-1]
             cell_x, cell_y = 2 * x + 1, 2 * y + 1
-            self.maze.grid[cell_y, cell_x] = 1
+            self.maze.grid[cell_y, cell_x] = Structures.SELECTED
 
             # Get unvisited neighbors
             neighbors = self.get_unvisited_neighbors(x, y)
             if neighbors:
                 next_x, next_y = random.choice(neighbors)
                 wall_x, wall_y = cell_x + (next_x - x), cell_y + (next_y - y)
-                self.maze.grid[wall_y, wall_x] = 1
+                self.maze.grid[wall_y, wall_x] = Structures.SELECTED
                 self.stack.append((next_x, next_y))
                 self.visited[next_y, next_x] = True
                 self.unvisited_cells -= 1
@@ -108,10 +109,16 @@ class DFSMazeGenerator(MazeGenerator):
                 loop = False
             x, y = self.stack[-1]
             cell_x, cell_y = 2 * x + 1, 2 * y + 1
-            self.maze.grid[cell_y, cell_x] = 1
+            self.maze.grid[cell_y, cell_x] = Structures.SELECTED
 
             # Create the image for the current frame
-            im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=0, vmax=2, animated=True)
+            im = ax.imshow(
+                self.maze.grid.copy(),
+                cmap='binary',
+                vmin=Structures.EMPTY,
+                vmax=Structures.WALL,
+                animated=True
+            )
             # Plot the current cell
             red_dot, = ax.plot(cell_x, cell_y, marker='o', color='red', markersize=marker_size, animated=True)
 
@@ -122,14 +129,14 @@ class DFSMazeGenerator(MazeGenerator):
             if neighbors:
                 next_x, next_y = random.choice(neighbors)
                 wall_x, wall_y = cell_x + (next_x - x), cell_y + (next_y - y)
-                self.maze.grid[wall_y, wall_x] = 1
+                self.maze.grid[wall_y, wall_x] = Structures.SELECTED
                 self.stack.append((next_x, next_y))
                 self.visited[next_y, next_x] = True
                 self.unvisited_cells -= 1
             else:
                 self.stack.pop()
 
-        im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=0, vmax=2, animated=True)
+        im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL, animated=True)
         ims.append([im])
 
         # Return the animation object for further use if needed

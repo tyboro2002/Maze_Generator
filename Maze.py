@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from settings import Structures
+
 
 class Maze:
     """
@@ -11,22 +13,22 @@ class Maze:
         self.height = height
         # Create a grid with walls (2) and cells (0)
         self.grid = np.zeros((2 * height + 1, 2 * width + 1), dtype=np.int8)
-        self.grid[1::2, 1::2] = 0  # Paths
-        self.grid[0::2, :] = 2  # Horizontal walls
-        self.grid[:, 0::2] = 2  # Vertical walls
+        self.grid[1::2, 1::2] = Structures.EMPTY  # Paths
+        self.grid[0::2, :] = Structures.WALL  # Horizontal walls
+        self.grid[:, 0::2] = Structures.WALL  # Vertical walls
 
     def reset(self) -> None:
         """
         Reset the maze to its initial state.
         """
-        self.grid.fill(2)
-        self.grid[1::2, 1::2] = 0
+        self.grid.fill(Structures.WALL)
+        self.grid[1::2, 1::2] = Structures.EMPTY
 
     def display(self) -> None:
         """
         Display the maze on the screen.
         """
-        plt.imshow(self.grid, cmap='binary', vmin=0, vmax=2)
+        plt.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
         plt.xticks([]), plt.yticks([])
         plt.show()
 
@@ -38,7 +40,7 @@ class Maze:
         # Adjust figure size based on maze dimensions
         fig, ax = plt.subplots(figsize=(max(self.width / 5, 10), max(self.height / 5, 10)))
         ax.set_xticks([]), ax.set_yticks([])
-        ax.imshow(self.grid, cmap='binary', vmin=0, vmax=2)
+        ax.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
         plt.savefig(filename, bbox_inches='tight')
         plt.close()
 

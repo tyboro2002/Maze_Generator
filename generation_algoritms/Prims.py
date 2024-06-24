@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt, animation
 from matplotlib.animation import Animation
 
 from Maze import MazeGenerator
+from settings import Structures
 
 
 class PrimsMazeGenerator(MazeGenerator):
@@ -54,7 +55,7 @@ class PrimsMazeGenerator(MazeGenerator):
         # Start with a random cell
         start_x, start_y = random.randint(0, self.maze.width - 1), random.randint(0, self.maze.height - 1)
         self.visited[start_x, start_y] = True
-        self.maze.grid[2 * start_x + 1, 2 * start_y + 1] = 1  # Start cell
+        self.maze.grid[2 * start_x + 1, 2 * start_y + 1] = Structures.SELECTED  # Start cell
         self.walls.extend(self.get_neighbors(start_x, start_y))
 
         while self.walls:
@@ -62,8 +63,8 @@ class PrimsMazeGenerator(MazeGenerator):
             x, y, wx, wy = rand_wall
             if not self.visited[x, y]:
                 self.visited[x, y] = True
-                self.maze.grid[2 * x + 1 - wx, 2 * y + 1 - wy] = 1  # Remove the wall
-                self.maze.grid[2 * x + 1, 2 * y + 1] = 1  # Mark the cell as part of the maze
+                self.maze.grid[2 * x + 1 - wx, 2 * y + 1 - wy] = Structures.SELECTED  # Remove the wall
+                self.maze.grid[2 * x + 1, 2 * y + 1] = Structures.SELECTED  # Mark the cell as part of the maze
 
                 # Add the neighboring walls of the cell to the wall list
                 self.walls.extend(self.get_neighbors(x, y))
@@ -84,7 +85,7 @@ class PrimsMazeGenerator(MazeGenerator):
         self.maze.reset()
         start_x, start_y = random.randint(0, self.maze.width - 1), random.randint(0, self.maze.height - 1)
         self.visited[start_x, start_y] = True
-        self.maze.grid[2 * start_x + 1, 2 * start_y + 1] = 1  # Start cell
+        self.maze.grid[2 * start_x + 1, 2 * start_y + 1] = Structures.SELECTED  # Start cell
         self.walls.extend(self.get_neighbors(start_x, start_y))
 
         # Calculate marker size based on maze dimensions
@@ -96,11 +97,17 @@ class PrimsMazeGenerator(MazeGenerator):
             x, y, wx, wy = rand_wall
             if not self.visited[x, y]:
                 self.visited[x, y] = True
-                self.maze.grid[2 * x + 1 - wx, 2 * y + 1 - wy] = 1  # Remove the wall
-                self.maze.grid[2 * x + 1, 2 * y + 1] = 1   # Mark the cell as part of the maze
+                self.maze.grid[2 * x + 1 - wx, 2 * y + 1 - wy] = Structures.SELECTED  # Remove the wall
+                self.maze.grid[2 * x + 1, 2 * y + 1] = Structures.SELECTED   # Mark the cell as part of the maze
 
                 # Create the image for the current frame
-                im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=0, vmax=2, animated=True)
+                im = ax.imshow(
+                    self.maze.grid.copy(),
+                    cmap='binary',
+                    vmin=Structures.EMPTY,
+                    vmax=Structures.WALL,
+                    animated=True
+                )
                 red_dot, = ax.plot(2*y+1, 2*x+1, marker='o', color='red', markersize=marker_size, animated=True)
 
                 # Append the image and the current cell marker to the frame
