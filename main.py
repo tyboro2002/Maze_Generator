@@ -1,4 +1,5 @@
 from Maze import Maze
+from generation_algoritms.Aldous_broder import Aldous_Broder
 from generation_algoritms.DFS import DFSMazeGenerator
 from generation_algoritms.Prims import PrimsMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
@@ -16,15 +17,6 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 # in the maze—however, if at any point the random walk reaches its own path, forming a loop, we erase the loop from the
 # path before proceeding. When the path reaches the maze, we add it to the maze. Then we perform another loop-erased
 # random walk from another arbitrary starting cell, repeating until all cells have been filled.
-
-# TODO Aldous-Broder algorithm
-# Pick a random cell as the current cell and mark it as visited.
-# While there are unvisited cells:
-#   Pick a random neighbour.
-#   If the chosen neighbour has not been visited:
-#       Remove the wall between the current cell and the chosen neighbour.
-#       Mark the chosen neighbour as visited.
-#   Make the chosen neighbour the current cell.
 
 # TODO Recursive division method
 # Mazes can be created with recursive division, an algorithm which works as follows: Begin with the maze's space with
@@ -44,19 +36,27 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 
 if __name__ == '__main__':
     maze = Maze(sizeWidth, sizeHeight)
-    DFSMazeGenerator(
-        maze,
-        optimize_no_unvisited=True
-    ).run(
-        maze_filename=mazes_dir + "DFS_maze.png",
-        animate=animate,
-        animation_filename=animations_dir + 'DFS_maze_animation.mp4'
-    )
+    # DFSMazeGenerator(
+    #     maze,
+    #     optimize_no_unvisited=True
+    # ).run(
+    #     maze_filename=mazes_dir + "DFS_maze.png",
+    #     animate=animate,
+    #     animation_filename=animations_dir + 'DFS_maze_animation.mp4'
+    # )
+    #
+    # PrimsMazeGenerator(
+    #     maze
+    # ).run(
+    #     maze_filename=mazes_dir + "Prims_maze.png",
+    #     animate=animate,
+    #     animation_filename=animations_dir + 'Prims_maze_animation.mp4'
+    # )
 
-    PrimsMazeGenerator(
+    Aldous_Broder(
         maze
     ).run(
-        maze_filename=mazes_dir + "Prims_maze.png",
+        maze_filename=mazes_dir + "Aldous_Broder_maze.png",
         animate=animate,
-        animation_filename=animations_dir + 'Prims_maze_animation.mp4'
+        animation_filename=animations_dir + 'Aldous_Broder_maze_animation.mp4'
     )
