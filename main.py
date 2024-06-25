@@ -5,12 +5,6 @@ from generation_algoritms.Prims import PrimsMazeGenerator
 from generation_algoritms.Randomized_kruskal_set import RandomizedKruskalSetMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 
-# TODO Iterative randomized Kruskal's algorithm (with sets)
-# Create a list of all walls, and create a set for each cell, each containing just that one cell.
-# For each wall, in some random order:
-#   If the cells divided by this wall belong to distinct sets:
-#      Remove the current wall.
-#      Join the sets of the formerly divided cells.
 
 # TODO wilson's algorithm
 # We begin the algorithm by initializing the maze with one cell chosen arbitrarily.
@@ -37,30 +31,31 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 
 if __name__ == '__main__':
     maze = Maze(sizeWidth, sizeHeight)
-    # DFSMazeGenerator(
-    #     maze,
-    #     optimize_no_unvisited=True
-    # ).run(
-    #     maze_filename=mazes_dir + "DFS_maze.png",
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'DFS_maze_animation.mp4'
-    # )
-    #
-    # PrimsMazeGenerator(
-    #     maze
-    # ).run(
-    #     maze_filename=mazes_dir + "Prims_maze.png",
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'Prims_maze_animation.mp4'
-    # )
 
-    # AldousBroderMazeGenerator(
-    #     maze
-    # ).run(
-    #     maze_filename=mazes_dir + "Aldous_Broder_maze.png",
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'Aldous_Broder_maze_animation.mp4'
-    # )
+    AldousBroderMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Aldous_Broder_maze.png",
+        animate=animate,
+        animation_filename=animations_dir + 'Aldous_Broder_maze_animation.mp4'
+    )
+
+    DFSMazeGenerator(
+        maze,
+        optimize_no_unvisited=True
+    ).run(
+        maze_filename=mazes_dir + "DFS_maze.png",
+        animate=animate,
+        animation_filename=animations_dir + 'DFS_maze_animation.mp4'
+    )
+
+    PrimsMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Prims_maze.png",
+        animate=animate,
+        animation_filename=animations_dir + 'Prims_maze_animation.mp4'
+    )
 
     RandomizedKruskalSetMazeGenerator(
         maze

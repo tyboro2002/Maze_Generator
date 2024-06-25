@@ -12,6 +12,15 @@ from settings import Structures
 class RandomizedKruskalSetMazeGenerator(MazeGenerator):
     """
     A class to generate mazes using the randomized Kruskal's Algorithm.
+
+    The algorithm works as follows:
+        Create a list of all walls, and create a set for each cell, each containing just that one cell.
+        For each wall, in some random order:
+          If the cells divided by this wall belong to distinct sets:
+             Remove the current wall.
+             Join the sets of the formerly divided cells.
+
+    This process ensures that the maze is fully connected and each cell is reachable from any other cell.
     """
 
     def __init__(self, maze):
@@ -54,12 +63,16 @@ class RandomizedKruskalSetMazeGenerator(MazeGenerator):
             set2 = self.find_set((x2, y2))
 
             if set1 != set2:
+                fx = 2 * x1 + 1
+                fy = 2 * y1 + 1
+                sx = 2 * x2 + 1
+                sy = 2 * y2 + 1
                 # Remove the wall between the cells
-                wall_x = ((2 * x1 + 1) + (2 * x2 + 1)) // 2
-                wall_y = ((2 * y1 + 1) + (2 * y2 + 1)) // 2
+                wall_x = (fx + sx) // 2
+                wall_y = (fy + sy) // 2
                 self.maze.grid[wall_x, wall_y] = Structures.SELECTED
-                self.maze.grid[2 * x1 + 1, 2 * y1 + 1] = Structures.SELECTED
-                self.maze.grid[2 * x2 + 1, 2 * y2 + 1] = Structures.SELECTED
+                self.maze.grid[fx, fy] = Structures.SELECTED
+                self.maze.grid[sx, sy] = Structures.SELECTED
 
                 # Merge the sets
                 self.sets.remove(set1)
@@ -81,18 +94,26 @@ class RandomizedKruskalSetMazeGenerator(MazeGenerator):
         walls = self._initialize_walls()
         self.sets = [set([(x, y)]) for x in range(self.maze.width) for y in range(self.maze.height)]
 
+        # Calculate marker size based on maze dimensions
+        base_size = 10
+        marker_size = base_size * min(1, base_size / max(self.maze.width, self.maze.height))
+
         while walls:
             x1, y1, x2, y2 = walls.pop()
             set1 = self.find_set((x1, y1))
             set2 = self.find_set((x2, y2))
 
             if set1 != set2:
+                fx = 2 * x1 + 1
+                fy = 2 * y1 + 1
+                sx = 2 * x2 + 1
+                sy = 2 * y2 + 1
                 # Remove the wall between the cells
-                wall_x = ((2 * x1 + 1) + (2 * x2 + 1))//2
-                wall_y = ((2 * y1 + 1) + (2 * y2 + 1))//2
+                wall_x = (fx + sx)//2
+                wall_y = (fy + sy)//2
                 self.maze.grid[wall_x, wall_y] = Structures.SELECTED
-                self.maze.grid[2 * x1 + 1, 2 * y1 + 1] = Structures.SELECTED
-                self.maze.grid[2 * x2 + 1, 2 * y2 + 1] = Structures.SELECTED
+                self.maze.grid[fx, fy] = Structures.SELECTED
+                self.maze.grid[sx, sy] = Structures.SELECTED
 
                 # Merge the sets
                 self.sets.remove(set1)
@@ -101,7 +122,17 @@ class RandomizedKruskalSetMazeGenerator(MazeGenerator):
                 self.sets.remove(set2)
 
                 # Create the image for the current frame
-                im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL, animated=True)
-                ims.append([im])
+                im = ax.imshow(
+                    self.maze.grid.copy(),
+                    cmap='binary',
+                    vmin=Structures.EMPTY,
+                    vmax=Structures.WALL,
+                    animated=True
+                )
+                red_dot1, = ax.plot(fy, fx, marker='o', color='red', markersize=marker_size, animated=True)
+                red_dot2, = ax.plot(sy, sx, marker='o', color='red', markersize=marker_size, animated=True)
+
+                # Append the image and the current cell marker to the frame
+                ims.append([im, red_dot1, red_dot2])
 
         return animation.ArtistAnimation(fig, ims, interval=100, blit=True)

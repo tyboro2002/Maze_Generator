@@ -12,6 +12,7 @@ from settings import Structures
 class DFSMazeGenerator(MazeGenerator):
     """
     A maze generator algorithm that generates mazes by the DFS algorithm.
+
     The DFS algorithm works as follows:
     1. Start with an initial cell and mark it as visited.
     2. Push the initial cell onto the stack.

@@ -22,6 +22,8 @@ class PrimsMazeGenerator(MazeGenerator):
           i. Make the wall a passage and mark the cell on the opposite side as part of the maze.
           ii. Add the neighboring walls of the cell to the wall list.
        c. Remove the wall from the list.
+
+    This process ensures that the maze is fully connected and each cell is reachable from any other cell.
     """
 
     def __init__(self, maze):
