@@ -9,7 +9,7 @@ from Maze import MazeGenerator
 from settings import Structures
 
 
-class Aldous_Broder(MazeGenerator):
+class AldousBroderMazeGenerator(MazeGenerator):
     """
     A maze generator algorithm that generates mazes by the Aldous broder algorithm.
     The Aldous broder algorithm works as follows:

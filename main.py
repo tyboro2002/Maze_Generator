@@ -1,7 +1,8 @@
 from Maze import Maze
-from generation_algoritms.Aldous_broder import Aldous_Broder
+from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
 from generation_algoritms.DFS import DFSMazeGenerator
 from generation_algoritms.Prims import PrimsMazeGenerator
+from generation_algoritms.Randomized_kruskal_set import RandomizedKruskalSetMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 
 # TODO Iterative randomized Kruskal's algorithm (with sets)
@@ -53,10 +54,18 @@ if __name__ == '__main__':
     #     animation_filename=animations_dir + 'Prims_maze_animation.mp4'
     # )
 
-    Aldous_Broder(
+    # AldousBroderMazeGenerator(
+    #     maze
+    # ).run(
+    #     maze_filename=mazes_dir + "Aldous_Broder_maze.png",
+    #     animate=animate,
+    #     animation_filename=animations_dir + 'Aldous_Broder_maze_animation.mp4'
+    # )
+
+    RandomizedKruskalSetMazeGenerator(
         maze
     ).run(
-        maze_filename=mazes_dir + "Aldous_Broder_maze.png",
+        maze_filename=mazes_dir + "Randomized_Kruskal_Set_maze.png",
         animate=animate,
-        animation_filename=animations_dir + 'Aldous_Broder_maze_animation.mp4'
+        animation_filename=animations_dir + 'Randomized_Kruskal_Set_maze_animation.mp4'
     )
