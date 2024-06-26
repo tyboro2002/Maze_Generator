@@ -3,15 +3,9 @@ from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
 from generation_algoritms.DFS import DFSMazeGenerator
 from generation_algoritms.Prims import PrimsMazeGenerator
 from generation_algoritms.Randomized_kruskal_set import RandomizedKruskalSetMazeGenerator
+from generation_algoritms.Wilson import WilsonMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 
-
-# TODO wilson's algorithm
-# We begin the algorithm by initializing the maze with one cell chosen arbitrarily.
-# Then we start at a new cell chosen arbitrarily, and perform a random walk until we reach a cell already
-# in the maze—however, if at any point the random walk reaches its own path, forming a loop, we erase the loop from the
-# path before proceeding. When the path reaches the maze, we add it to the maze. Then we perform another loop-erased
-# random walk from another arbitrary starting cell, repeating until all cells have been filled.
 
 # TODO Recursive division method
 # Mazes can be created with recursive division, an algorithm which works as follows: Begin with the maze's space with
@@ -32,6 +26,7 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 if __name__ == '__main__':
     maze = Maze(sizeWidth, sizeHeight)
 
+    print("aldous broder start")
     AldousBroderMazeGenerator(
         maze
     ).run(
@@ -39,7 +34,9 @@ if __name__ == '__main__':
         animate=animate,
         animation_filename=animations_dir + 'Aldous_Broder_maze_animation.mp4'
     )
+    print("aldous broder done")
 
+    print("DFS start")
     DFSMazeGenerator(
         maze,
         optimize_no_unvisited=True
@@ -48,7 +45,9 @@ if __name__ == '__main__':
         animate=animate,
         animation_filename=animations_dir + 'DFS_maze_animation.mp4'
     )
+    print("DFS done")
 
+    print("prims start")
     PrimsMazeGenerator(
         maze
     ).run(
@@ -56,7 +55,9 @@ if __name__ == '__main__':
         animate=animate,
         animation_filename=animations_dir + 'Prims_maze_animation.mp4'
     )
+    print("prims done")
 
+    print("randomized kruskal set start")
     RandomizedKruskalSetMazeGenerator(
         maze
     ).run(
@@ -64,3 +65,14 @@ if __name__ == '__main__':
         animate=animate,
         animation_filename=animations_dir + 'Randomized_Kruskal_Set_maze_animation.mp4'
     )
+    print("randomized kruskal set done")
+
+    print("wilson start")
+    WilsonMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Wilson_maze.png",
+        animate=animate,
+        animation_filename=animations_dir + 'Wilson_maze_animation.mp4'
+    )
+    print("wilson done")
