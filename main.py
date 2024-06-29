@@ -3,6 +3,7 @@ from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
 from generation_algoritms.DFS import DFSMazeGenerator
 from generation_algoritms.Prims import PrimsMazeGenerator
 from generation_algoritms.Randomized_kruskal_set import RandomizedKruskalSetMazeGenerator
+from generation_algoritms.Recursive_division import RecursiveDivisionMazeGenerator
 from generation_algoritms.Wilson import WilsonMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir
 
@@ -76,3 +77,13 @@ if __name__ == '__main__':
         animation_filename=animations_dir + 'Wilson_maze_animation.mp4'
     )
     print("wilson done")
+
+    print("Recursive Division start")
+    RecursiveDivisionMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Recursive_Division_maze.png",
+        animate=animate,
+        animation_filename=animations_dir + 'Recursive_Division_maze_animation.mp4'
+    )
+    print("Recursive Division done")
