@@ -1,5 +1,5 @@
 import random
-from matplotlib import pyplot as plt, animation
+from matplotlib import pyplot as plt
 from matplotlib.animation import ArtistAnimation
 from Maze import MazeGenerator
 from settings import Structures
@@ -33,7 +33,7 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
 
         if orientation == 'H':
             wallx = x
-            wally = y + (height // 2)
+            wally = y + (height // 2)  # TODO place wall random instead in mid
             passagex = wallx + random.randint(0, width - 1)
             passagey = wally
             dx = 1
@@ -41,7 +41,7 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
             length = width
             next_orientation = 'V'
         else:
-            wallx = x + (width // 2)
+            wallx = x + (width // 2)  # TODO place wall random instead in mid
             wally = y
             passagex = wallx
             passagey = wally + random.randint(0, height - 1)

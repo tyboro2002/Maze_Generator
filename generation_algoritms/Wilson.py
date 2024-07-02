@@ -1,6 +1,6 @@
 import random
 from typing import List, Tuple
-from matplotlib import pyplot as plt, animation
+from matplotlib import pyplot as plt
 from matplotlib.animation import ArtistAnimation
 from Maze import MazeGenerator
 from settings import Structures
