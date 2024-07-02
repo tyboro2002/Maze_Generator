@@ -9,6 +9,8 @@ __pycache__/
 # generated files
 animations/
 mazes/
+solutions_animations/
+solutions/
 
 # Distribution / packaging
 .Python
