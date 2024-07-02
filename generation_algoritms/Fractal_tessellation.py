@@ -29,20 +29,24 @@ class FractalTessellationMazeGenerator(MazeGenerator):
         self.maze.grid[
             0:2*self.current_height+1, 2*self.current_width:4*self.current_width+1
         ] = region
-        upp_wall = random.randint(1, self.current_height)
-        bottom_wall = random.randint(self.current_height, 2*self.current_height-1)
-        right_wall = random.randint(self.current_width, 2*self.current_width-1)
-        left_wall = random.randint(1, self.current_width)
         pos_arrangements = ['lbu', 'rbu', 'lru', 'rlb']
         arrangement = random.choice(pos_arrangements)
         if 'r' in arrangement:
-            self.maze.grid[(2 * self.current_height, 2 * right_wall+1)] = Structures.SELECTED
+            self.maze.grid[
+                (2 * self.current_height, 2 * random.randint(self.current_width, 2 * self.current_width-1)+1)
+            ] = Structures.SELECTED
         if 'b' in arrangement:
-            self.maze.grid[(2 * bottom_wall + 1, 2 * self.current_width)] = Structures.SELECTED
+            self.maze.grid[
+                (2 * random.randint(self.current_height, 2 * self.current_height-1) + 1, 2 * self.current_width)
+            ] = Structures.SELECTED
         if 'u' in arrangement:
-            self.maze.grid[(2 * upp_wall - 1, 2 * self.current_width)] = Structures.SELECTED
+            self.maze.grid[
+                (2 * random.randint(1, self.current_height) - 1, 2 * self.current_width)
+            ] = Structures.SELECTED
         if 'l' in arrangement:
-            self.maze.grid[(2 * self.current_height, 2 * left_wall-1)] = Structures.SELECTED
+            self.maze.grid[
+                (2 * self.current_height, 2 * random.randint(1, self.current_width)-1)
+            ] = Structures.SELECTED
         self.current_width *= 2
         self.current_height *= 2
         # print(f"expanded width: {self.current_width//2}, height: {self.current_height//2}")
@@ -76,4 +80,4 @@ class FractalTessellationMazeGenerator(MazeGenerator):
                            animated=True)
             ims.append([im])
 
-        return ArtistAnimation(fig, ims, interval=100, blit=True)
+        return ArtistAnimation(fig, ims, interval=1000, blit=True, repeat_delay=1000)
