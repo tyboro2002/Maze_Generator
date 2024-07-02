@@ -32,6 +32,42 @@ class Maze:
         plt.xticks([]), plt.yticks([])
         plt.show()
 
+    def display_path(self, path):
+        """
+        Display the maze with the path overlayed.
+        :param path: List[Tuple[int, int]], the path to display on the maze.
+        """
+        fig, ax = plt.subplots()
+        ax.set_xticks([]), ax.set_yticks([])
+
+        # Plot the maze
+        ax.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
+
+        # Plot the path
+        path_y, path_x = zip(*path)
+        ax.plot(path_x, path_y, marker='o', color='red', markersize=5, linewidth=2)
+
+        plt.show()
+
+    def save_path(self, path, filename: str):
+        """
+        Display the maze with the path overlayed.
+        :param path: List[Tuple[int, int]], the path to display on the maze.
+        :param filename: str, the path to save the image
+        """
+        fig, ax = plt.subplots()
+        ax.set_xticks([]), ax.set_yticks([])
+
+        # Plot the maze
+        ax.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
+
+        # Plot the path
+        path_y, path_x = zip(*path)
+        ax.plot(path_x, path_y, marker='o', color='red', markersize=5, linewidth=2)
+
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+
     def save(self, filename: str) -> None:
         """
         Save the maze to a file with the given filename.
