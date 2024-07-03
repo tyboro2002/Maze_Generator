@@ -19,7 +19,7 @@ class LeftHandRuleSolver:
         ims = []
         im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
 
-        for i in range(1, len(path)):
+        for i in range(1, len(path)+1):
             # Plot the path
             cur_path = path[:i]
             path_y, path_x = zip(*cur_path)

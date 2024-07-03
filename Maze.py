@@ -61,9 +61,14 @@ class Maze:
         # Plot the maze
         ax.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
 
+        base_size = 7
+        marker_size = base_size * min(1, base_size / max(self.width, self.height))
+
+        linewidth = base_size * min(1, base_size / max(self.width, self.height)) * 0.5
+
         # Plot the path
         path_y, path_x = zip(*path)
-        ax.plot(path_x, path_y, marker='o', color='red', markersize=5, linewidth=2)
+        ax.plot(path_x, path_y, marker='o', color='red', markersize=marker_size, linewidth=linewidth)
 
         plt.savefig(filename, bbox_inches='tight')
         plt.close()
