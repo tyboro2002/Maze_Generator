@@ -1,7 +1,7 @@
-size = 10
+size = 50
 sizeWidth = size
 sizeHeight = size
-sizeFractal = 16
+sizeFractal = 16  # this must be a power of 2
 sizeWidthFractal = sizeFractal
 sizeHeightFractal = sizeFractal
 animate = False  # Should we generate animations of the maze generation

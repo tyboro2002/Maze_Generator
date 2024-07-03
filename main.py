@@ -9,6 +9,7 @@ from generation_algoritms.Wilson import WilsonMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, mazes_filetype, animations_filetype, \
     add_maze_size_to_name, sizeWidthFractal, sizeHeightFractal, solutions_dir, solutions_filetype, \
     solutions_animation_dir, solutions_animation_filetype, animate_solutions
+from solver_algorithms.A_star import AStarSolver
 from solver_algorithms.BFS import BFSSolver
 from solver_algorithms.DFS import DFSSolver
 from solver_algorithms.Dijkstra import DijkstraSolver
@@ -123,21 +124,37 @@ def solveMaze(maze, name, animate=False):
     # )
     # print(f"{name} maze solve with BFS done")
 
-    print(f"{name} maze solve with Dijkstra start")
+    # print(f"{name} maze solve with Dijkstra start")
+    # maze.save_path(
+    #     DijkstraSolver(
+    #         maze
+    #     ).solve(
+    #         (0, 0),
+    #         (maze.width - 1, maze.height - 1),
+    #         animate=animate,
+    #         animation_filename=solutions_animation_dir + name + "/Dijkstra" +
+    #         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
+    #     )
+    #     , solutions_dir + name + "/Dijkstra" +
+    #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
+    # )
+    # print(f"{name} maze solve with Dijkstra done")
+
+    print(f"{name} maze solve with A* start")
     maze.save_path(
-        DijkstraSolver(
+        AStarSolver(
             maze
         ).solve(
             (0, 0),
             (maze.width - 1, maze.height - 1),
             animate=animate,
-            animation_filename=solutions_animation_dir + name + "/Dijkstra" +
+            animation_filename=solutions_animation_dir + name + "/A_Star" +
             (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
         )
-        , solutions_dir + name + "/Dijkstra" +
+        , solutions_dir + name + "/A_Star" +
         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
     )
-    print(f"{name} maze solve with Dijkstra done")
+    print(f"{name} maze solve with A* done")
 
 
 if __name__ == '__main__':
@@ -157,18 +174,18 @@ if __name__ == '__main__':
     print("fractal tessellation maze generation done")
     solveMaze(fractal_maze, "Fractal_Tessellation", animate=animate_solutions)
 
-    print("Aldous Broder start")
-    AldousBroderMazeGenerator(
-        maze
-    ).run(
-        maze_filename=mazes_dir + "Aldous_Broder_maze" +
-        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
-        animate=animate,
-        animation_filename=animations_dir + 'Aldous_Broder_maze_animation' +
-        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
-    )
-    print("Aldous Broder done")
-    solveMaze(maze, "Aldous_Broder", animate=animate_solutions)
+    # print("Aldous Broder start")
+    # AldousBroderMazeGenerator(
+    #     maze
+    # ).run(
+    #     maze_filename=mazes_dir + "Aldous_Broder_maze" +
+    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+    #     animate=animate,
+    #     animation_filename=animations_dir + 'Aldous_Broder_maze_animation' +
+    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+    # )
+    # print("Aldous Broder done")
+    # solveMaze(maze, "Aldous_Broder", animate=animate_solutions)
 
     print("DFS start")
     DFSMazeGenerator(
