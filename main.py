@@ -12,15 +12,11 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, 
 from solver_algorithms.BFS import BFSSolver
 from solver_algorithms.DFS import DFSSolver
 from solver_algorithms.Left_hand import LeftHandRuleSolver
+from solver_algorithms.Random_mouse import RandomMouseSolver
 from solver_algorithms.Right_hand import RightHandRuleSolver
 
 # if you get an error that a path is not found make a directory
 # TODO make a function to do this
-
-# TODO random mouse
-# This simple method can be implemented by a very unintelligent robot or perhaps a mouse, because it does not
-# require any memory. The robot proceeds following the current passage until a junction is reached, and then makes a
-# random decision about the next direction to follow.
 
 # TODO dead end filling
 # find all of the dead-ends in the maze, and then
@@ -109,6 +105,22 @@ def solveMaze(maze, name, animate=False):
         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
     )
     print(f"{name} maze solve with BFS done")
+
+    # print(f"{name} maze solve with Random mouse start")
+    # maze.save_path(
+    #     RandomMouseSolver(
+    #         maze
+    #     ).solve(
+    #         (0, 0),
+    #         (maze.width - 1, maze.height - 1),
+    #         animate=animate,
+    #         animation_filename=solutions_animation_dir + name + "/Random_Mouse" +
+    #         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
+    #     )
+    #     , solutions_dir + name + "/Random_Mouse" +
+    #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
+    # )
+    # print(f"{name} maze solve with Random mouse done")
 
 
 if __name__ == '__main__':
