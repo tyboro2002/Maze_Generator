@@ -11,6 +11,7 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, 
     solutions_animation_dir, solutions_animation_filetype, animate_solutions
 from solver_algorithms.BFS import BFSSolver
 from solver_algorithms.DFS import DFSSolver
+from solver_algorithms.Dijkstra import DijkstraSolver
 from solver_algorithms.Left_hand import LeftHandRuleSolver
 from solver_algorithms.Random_mouse import RandomMouseSolver
 from solver_algorithms.Right_hand import RightHandRuleSolver
@@ -42,6 +43,22 @@ from solver_algorithms.Right_hand import RightHandRuleSolver
 
 
 def solveMaze(maze, name, animate=False):
+    # print(f"{name} maze solve with Random mouse start")
+    # maze.save_path(
+    #     RandomMouseSolver(
+    #         maze
+    #     ).solve(
+    #         (0, 0),
+    #         (maze.width - 1, maze.height - 1),
+    #         animate=animate,
+    #         animation_filename=solutions_animation_dir + name + "/Random_Mouse" +
+    #         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
+    #     )
+    #     , solutions_dir + name + "/Random_Mouse" +
+    #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
+    # )
+    # print(f"{name} maze solve with Random mouse done")
+
     # print(f"{name} maze solve with right hand rule start")
     # maze.save_path(
     #     RightHandRuleSolver(
@@ -90,37 +107,37 @@ def solveMaze(maze, name, animate=False):
     # )
     # print(f"{name} maze solve with DFS done")
 
-    print(f"{name} maze solve with BFS start")
-    maze.save_path(
-        BFSSolver(
-            maze
-        ).solve(
-            (0, 0),
-            (maze.width - 1, maze.height - 1),
-            animate=animate,
-            animation_filename=solutions_animation_dir + name + "/BFS" +
-            (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
-        )
-        , solutions_dir + name + "/BFS" +
-        (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
-    )
-    print(f"{name} maze solve with BFS done")
-
-    # print(f"{name} maze solve with Random mouse start")
+    # print(f"{name} maze solve with BFS start")
     # maze.save_path(
-    #     RandomMouseSolver(
+    #     BFSSolver(
     #         maze
     #     ).solve(
     #         (0, 0),
     #         (maze.width - 1, maze.height - 1),
     #         animate=animate,
-    #         animation_filename=solutions_animation_dir + name + "/Random_Mouse" +
+    #         animation_filename=solutions_animation_dir + name + "/BFS" +
     #         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
     #     )
-    #     , solutions_dir + name + "/Random_Mouse" +
+    #     , solutions_dir + name + "/BFS" +
     #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
     # )
-    # print(f"{name} maze solve with Random mouse done")
+    # print(f"{name} maze solve with BFS done")
+
+    print(f"{name} maze solve with Dijkstra start")
+    maze.save_path(
+        DijkstraSolver(
+            maze
+        ).solve(
+            (0, 0),
+            (maze.width - 1, maze.height - 1),
+            animate=animate,
+            animation_filename=solutions_animation_dir + name + "/Dijkstra" +
+            (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
+        )
+        , solutions_dir + name + "/Dijkstra" +
+        (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
+    )
+    print(f"{name} maze solve with Dijkstra done")
 
 
 if __name__ == '__main__':

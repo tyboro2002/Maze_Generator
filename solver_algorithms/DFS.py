@@ -22,7 +22,7 @@ class DFSSolver:
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
-        self.maze.grid[self.maze.grid == 1] = 0
+        self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
 
     def solve(self, start, end, animate=False, animation_filename=""):
         """

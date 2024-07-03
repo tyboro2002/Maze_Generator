@@ -1,3 +1,4 @@
+import heapq
 from collections import deque
 from settings import Structures
 import numpy as np
@@ -5,23 +6,27 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import ArtistAnimation
 
 
-class BFSSolver:
+class DijkstraSolver:
     """
-    Start at the root.
-    Shift the first (i.e. least recently added) element out of the queue.
-    Check for a match. If found, return the target node.
-    Add each of the current node's children to the stack.
-    Repeat until a match is found, or the stack is empty.
+    A solver that uses Dijkstra's algorithm to find the shortest path in a maze.
+
+    min-heap priority queue
+    In spanning trees like ours, Dijkstra's proceeds like BFS, with changes to step 2:
+
+    Remove the minimum entry from the priority queue.
+    and step 4:
+
+    Insert each of the current node's children into the priority queue.
     """
     def __init__(self, maze):
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
-        self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
+        self.maze.grid[self.maze.grid == 1] = 0
 
     def solve(self, start, end, animate=False, animation_filename=""):
         """
-        Solve the maze using BFS.
+        Solve the maze using Dijkstra's algorithm.
         :param start: Tuple[int, int], the starting point of the maze.
         :param end: Tuple[int, int], the ending point of the maze.
         :return: List[Tuple[int, int]], the path from start to end.
@@ -30,13 +35,13 @@ class BFSSolver:
         self.path = []
         self.ims = []
         if not animate:
-            self._bfs(start, end)
+            self._dijkstra(start, end)
             return self.path
 
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
         ax.set_xticks([]), ax.set_yticks([])
 
-        self._bfs(start, end, animate=True)
+        self._dijkstra(start, end, animate=True)
 
         self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
         im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL,
@@ -65,20 +70,22 @@ class BFSSolver:
         ani.save(animation_filename, writer='ffmpeg')
         return self.path
 
-    def _bfs(self, start, end, animate=False):
+    def _dijkstra(self, start, end, animate=False):
         """
-        The BFS function.
+        The Dijkstra's algorithm function.
         :param start: Tuple[int, int], the starting position in the maze.
         :param end: Tuple[int, int], the ending position in the maze.
         :param animate: bool, whether to animate the solving process.
         """
-        queue = deque([start])
+        priority_queue = []
+        heapq.heappush(priority_queue, (0, start))
         parent = {start: None}
+        cost = {start: 0}
         self.visited[start[0], start[1]] = True
         self.maze.grid[2 * start[0] + 1, 2 * start[1] + 1] = Structures.SELECTED
 
-        while queue:
-            x, y = queue.popleft()
+        while priority_queue:
+            current_cost, (x, y) = heapq.heappop(priority_queue)
             cell_x, cell_y = 2 * x + 1, 2 * y + 1
 
             if (x, y) == end:
@@ -89,16 +96,28 @@ class BFSSolver:
 
             for dx, dy in directions:
                 nx, ny = x + dx, y + dy
-                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and not self.visited[nx, ny] and self.maze.grid[2*nx+1-dx, 2*ny+1-dy] != Structures.WALL:
-                    queue.append((nx, ny))
-                    parent[(nx, ny)] = (x, y)
-                    self.visited[nx, ny] = True
-                    self.maze.grid[2 * nx + 1, 2 * ny + 1] = Structures.SELECTED
+                new_cost = current_cost + 1  # Uniform cost for each step
 
-                    if animate:
-                        self.maze.grid[2 * x + 1 + dx, 2 * y + 1 + dy] = Structures.SELECTED
-                        im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL, animated=True)
-                        self.ims.append([im])
+                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and \
+                        not self.visited[nx, ny] and self.maze.grid[2*nx+1-dx, 2*ny+1-dy] != Structures.WALL:
+                    if (nx, ny) not in cost or new_cost < cost[(nx, ny)]:
+                        cost[(nx, ny)] = new_cost
+                        priority = new_cost
+                        heapq.heappush(priority_queue, (priority, (nx, ny)))
+                        parent[(nx, ny)] = (x, y)
+                        self.visited[nx, ny] = True
+                        self.maze.grid[2 * nx + 1, 2 * ny + 1] = Structures.SELECTED
+
+                        if animate:
+                            self.maze.grid[cell_x + dx, cell_y + dy] = Structures.SELECTED
+                            im = plt.imshow(
+                                self.maze.grid.copy(),
+                                cmap='binary',
+                                vmin=Structures.EMPTY,
+                                vmax=Structures.WALL,
+                                animated=True
+                            )
+                            self.ims.append([im])
 
         return False
 

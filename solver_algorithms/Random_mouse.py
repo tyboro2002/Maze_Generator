@@ -16,7 +16,7 @@ class RandomMouseSolver:
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
-        self.maze.grid[self.maze.grid == 1] = 0
+        self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
 
     def solve(self, start, end, animate=False, animation_filename=""):
         """
@@ -78,15 +78,16 @@ class RandomMouseSolver:
         while current != end:
             # print(current, end, len(self.path), self.path)
             x, y = current
+            cell_x, cell_y = 2 * x + 1, 2 * y + 1
             self.visited[x, y] = True
-            self.maze.grid[2 * x + 1, 2 * y + 1] = Structures.SELECTED
-            self.path.append((2 * x + 1, 2 * y + 1))
+            self.maze.grid[cell_x, cell_y] = Structures.SELECTED
+            self.path.append((cell_x, cell_y))
 
             if animate:
                 im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL,
                                 animated=True)
                 # Plot the current cell
-                red_dot, = plt.plot(2 * y + 1, 2 * x + 1, marker='o', color='red', markersize=5, animated=True)
+                red_dot, = plt.plot(cell_y, cell_x, marker='o', color='red', markersize=5, animated=True)
 
                 # Append the image and the current cell marker to the frame
                 self.ims.append([im, red_dot])
@@ -96,9 +97,10 @@ class RandomMouseSolver:
 
             for dx, dy in directions:
                 nx, ny = x + dx, y + dy
-                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and self.maze.grid[2 * nx + 1 - dx, 2 * ny + 1 - dy] != Structures.WALL:
+                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and \
+                        self.maze.grid[2 * nx + 1 - dx, 2 * ny + 1 - dy] != Structures.WALL:
                     # print((dx, dy))
-                    self.maze.grid[2 * x + 1 + dx, 2 * y + 1 + dy] = Structures.SELECTED
+                    self.maze.grid[cell_x + dx, cell_y + dy] = Structures.SELECTED
                     current = (nx, ny)
                     moved = True
                     break
