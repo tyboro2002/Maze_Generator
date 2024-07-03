@@ -5,6 +5,9 @@ from matplotlib.animation import ArtistAnimation
 
 
 class RightHandRuleSolver:
+    """
+    keep a wall at the right all the time
+    """
     def __init__(self, maze):
         self.maze = maze
 

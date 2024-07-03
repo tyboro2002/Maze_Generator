@@ -6,6 +6,18 @@ from matplotlib.animation import ArtistAnimation, FuncAnimation
 
 
 class DFSSolver:
+    """
+    Start at the root.
+    Pop the last (i.e. most recently added) element off the stack.
+    Check for a match. If found, return the target node.
+    Add each of the current node's children to the stack.
+    Repeat until a match is found, or the stack is empty.
+
+    The algorithm will be given a starting X and Y value. If the X and Y values are not on a wall, the method will cal
+    itself with all adjacent X and Y values, making sure that it did not already use those X and Y values before. If the
+    X and Y values are those of the end location, it will save all the previous instances of
+    the method as the correct path.
+    """
     def __init__(self, maze):
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)

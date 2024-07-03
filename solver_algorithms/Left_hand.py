@@ -5,6 +5,9 @@ from matplotlib.animation import ArtistAnimation
 
 
 class LeftHandRuleSolver:
+    """
+    keep a wall at the left at all time
+    """
     def __init__(self, maze):
         self.maze = maze
 

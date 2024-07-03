@@ -6,6 +6,13 @@ from matplotlib.animation import ArtistAnimation
 
 
 class BFSSolver:
+    """
+    Start at the root.
+    Shift the first (i.e. least recently added) element out of the queue.
+    Check for a match. If found, return the target node.
+    Add each of the current node's children to the stack.
+    Repeat until a match is found, or the stack is empty.
+    """
     def __init__(self, maze):
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)

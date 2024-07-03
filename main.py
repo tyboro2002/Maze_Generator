@@ -26,24 +26,6 @@ from solver_algorithms.Right_hand import RightHandRuleSolver
 # find all of the dead-ends in the maze, and then
 # "fill in" the path from each dead-end until the first junction is met.
 
-# TODO Recursive algorithm (DFS)
-# The algorithm will be given a starting X and Y value. If the X and Y values are not on a wall, the method will cal
-# itself with all adjacent X and Y values, making sure that it did not already use those X and Y values before. If the
-# X and Y values are those of the end location, it will save all the previous instances of
-# the method as the correct path.
-# other way of writing:
-# Start at the root.
-# Pop the last (i.e. most recently added) element off the stack.
-# Check for a match. If found, return the target node.
-# Add each of the current node's children to the stack.
-# Repeat until a match is found, or the stack is empty.
-
-# TODO BFS
-# Start at the root.
-# Shift the first (i.e. least recently added) element out of the queue.
-# Check for a match. If found, return the target node.
-# Add each of the current node's children to the stack.
-# Repeat until a match is found, or the stack is empty.
 
 # TODO A*
 # A* keeps track of two different factors. First, how expensive it was to get to a given node from the origin.
