@@ -26,21 +26,21 @@ from solver_algorithms.Right_hand import RightHandRuleSolver
 
 
 def solveMaze(maze, name, animate=False):
-    print(f"{name} maze solve with Random mouse start")
-    maze.save_path(
-        RandomMouseSolver(
-            maze
-        ).solve(
-            (0, 0),
-            (maze.width - 1, maze.height - 1),
-            animate=animate,
-            animation_filename=solutions_animation_dir + name + "/Random_Mouse" +
-            (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
-        )
-        , solutions_dir + name + "/Random_Mouse" +
-        (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
-    )
-    print(f"{name} maze solve with Random mouse done")
+    # print(f"{name} maze solve with Random mouse start")
+    # maze.save_path(
+    #     RandomMouseSolver(
+    #         maze
+    #     ).solve(
+    #         (0, 0),
+    #         (maze.width - 1, maze.height - 1),
+    #         animate=animate,
+    #         animation_filename=solutions_animation_dir + name + "/Random_Mouse" +
+    #         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
+    #     )
+    #     , solutions_dir + name + "/Random_Mouse" +
+    #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
+    # )
+    # print(f"{name} maze solve with Random mouse done")
 
     print(f"{name} maze solve with right hand rule start")
     maze.save_path(
@@ -122,7 +122,7 @@ def solveMaze(maze, name, animate=False):
     )
     print(f"{name} maze solve with Dijkstra done")
 
-    print(f"{name} maze solve with A* start")
+    print(f"{name} maze solve with A* (manhattan) start")
     maze.save_path(
         AStarSolver(
             maze
@@ -130,97 +130,115 @@ def solveMaze(maze, name, animate=False):
             (0, 0),
             (maze.width - 1, maze.height - 1),
             animate=animate,
-            animation_filename=solutions_animation_dir + name + "/A_Star" +
-            (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype
+            animation_filename=solutions_animation_dir + name + "/A_Star_manhattan" +
+            (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype,
+            manhattan=True
         )
-        , solutions_dir + name + "/A_Star" +
+        , solutions_dir + name + "/A_Star_manhattan" +
         (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
     )
-    print(f"{name} maze solve with A* done")
+    print(f"{name} maze solve with A* (manhattan) done")
+
+    print(f"{name} maze solve with A* (Euclidean) start")
+    maze.save_path(
+        AStarSolver(
+            maze
+        ).solve(
+            (0, 0),
+            (maze.width - 1, maze.height - 1),
+            animate=animate,
+            animation_filename=solutions_animation_dir + name + "/A_Star_Euclidean" +
+            (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_animation_filetype,
+            manhattan=False
+        )
+        , solutions_dir + name + "/A_Star_Euclidean" +
+        (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + solutions_filetype
+    )
+    print(f"{name} maze solve with A* (Euclidean) done")
 
 
 if __name__ == '__main__':
     maze = Maze(sizeWidth, sizeHeight)
     fractal_maze = Maze(sizeWidthFractal, sizeHeightFractal)
 
-    # print("fractal tessellation maze generation start")
-    # FractalTessellationMazeGenerator(
-    #     fractal_maze
-    # ).run(
-    #     maze_filename=mazes_dir + "Fractal_Tessellation_maze" +
-    #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + mazes_filetype,
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'Fractal_Tessellation_maze_animation' +
-    #     (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + animations_filetype
-    # )
-    # print("fractal tessellation maze generation done")
-    # solveMaze(fractal_maze, "Fractal_Tessellation", animate=animate_solutions)
-    #
-    # # print("Aldous Broder start")
-    # # AldousBroderMazeGenerator(
-    # #     maze
-    # # ).run(
-    # #     maze_filename=mazes_dir + "Aldous_Broder_maze" +
-    # #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
-    # #     animate=animate,
-    # #     animation_filename=animations_dir + 'Aldous_Broder_maze_animation' +
-    # #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
-    # # )
-    # # print("Aldous Broder done")
-    # # solveMaze(maze, "Aldous_Broder", animate=animate_solutions)
-    #
-    # print("DFS start")
-    # DFSMazeGenerator(
-    #     maze,
-    #     optimize_no_unvisited=True
-    # ).run(
-    #     maze_filename=mazes_dir + "DFS_maze" +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'DFS_maze_animation' +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
-    # )
-    # print("DFS done")
-    # solveMaze(maze, "DFS", animate=animate_solutions)
-    #
-    # print("Prims start")
-    # PrimsMazeGenerator(
-    #     maze
-    # ).run(
-    #     maze_filename=mazes_dir + "Prims_maze" +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'Prims_maze_animation' +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
-    # )
-    # print("Prims done")
-    # solveMaze(maze, "Prims", animate=animate_solutions)
-    #
-    # print("Randomized Kruskal set start")
-    # RandomizedKruskalSetMazeGenerator(
-    #     maze
-    # ).run(
-    #     maze_filename=mazes_dir + "Randomized_Kruskal_Set_maze" +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'Randomized_Kruskal_Set_maze_animation' +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
-    # )
-    # print("Randomized Kruskal set done")
-    # solveMaze(maze, "Randomized_Kruskal", animate=animate_solutions)
-    #
-    # print("Wilson start")
-    # WilsonMazeGenerator(
-    #     maze
-    # ).run(
-    #     maze_filename=mazes_dir + "Wilson_maze" +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
-    #     animate=animate,
-    #     animation_filename=animations_dir + 'Wilson_maze_animation' +
-    #     (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
-    # )
-    # print("Wilson done")
-    # solveMaze(maze, "Wilson", animate=animate_solutions)
+    print("fractal tessellation maze generation start")
+    FractalTessellationMazeGenerator(
+        fractal_maze
+    ).run(
+        maze_filename=mazes_dir + "Fractal_Tessellation_maze" +
+        (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + mazes_filetype,
+        animate=animate,
+        animation_filename=animations_dir + 'Fractal_Tessellation_maze_animation' +
+        (f"_{sizeWidthFractal}x{sizeHeightFractal}" if add_maze_size_to_name else "") + animations_filetype
+    )
+    print("fractal tessellation maze generation done")
+    solveMaze(fractal_maze, "Fractal_Tessellation", animate=animate_solutions)
+
+    print("Aldous Broder start")
+    AldousBroderMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Aldous_Broder_maze" +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+        animate=animate,
+        animation_filename=animations_dir + 'Aldous_Broder_maze_animation' +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+    )
+    print("Aldous Broder done")
+    solveMaze(maze, "Aldous_Broder", animate=animate_solutions)
+
+    print("DFS start")
+    DFSMazeGenerator(
+        maze,
+        optimize_no_unvisited=True
+    ).run(
+        maze_filename=mazes_dir + "DFS_maze" +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+        animate=animate,
+        animation_filename=animations_dir + 'DFS_maze_animation' +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+    )
+    print("DFS done")
+    solveMaze(maze, "DFS", animate=animate_solutions)
+
+    print("Prims start")
+    PrimsMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Prims_maze" +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+        animate=animate,
+        animation_filename=animations_dir + 'Prims_maze_animation' +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+    )
+    print("Prims done")
+    solveMaze(maze, "Prims", animate=animate_solutions)
+
+    print("Randomized Kruskal set start")
+    RandomizedKruskalSetMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Randomized_Kruskal_Set_maze" +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+        animate=animate,
+        animation_filename=animations_dir + 'Randomized_Kruskal_Set_maze_animation' +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+    )
+    print("Randomized Kruskal set done")
+    solveMaze(maze, "Randomized_Kruskal", animate=animate_solutions)
+
+    print("Wilson start")
+    WilsonMazeGenerator(
+        maze
+    ).run(
+        maze_filename=mazes_dir + "Wilson_maze" +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+        animate=animate,
+        animation_filename=animations_dir + 'Wilson_maze_animation' +
+        (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+    )
+    print("Wilson done")
+    solveMaze(maze, "Wilson", animate=animate_solutions)
 
     print("Recursive Division start")
     RecursiveDivisionMazeGenerator(

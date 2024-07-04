@@ -37,15 +37,20 @@ class Maze:
         Display the maze with the path overlayed.
         :param path: List[Tuple[int, int]], the path to display on the maze.
         """
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(max(self.width / 5, 10), max(self.height / 5, 10)))
         ax.set_xticks([]), ax.set_yticks([])
 
         # Plot the maze
         ax.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
 
+        base_size = 10
+        marker_size = base_size * min(1, base_size / max(self.width, self.height))
+
+        linewidth = base_size * min(1, base_size / max(self.width, self.height)) * 0.5
+
         # Plot the path
         path_y, path_x = zip(*path)
-        ax.plot(path_x, path_y, marker='o', color='red', markersize=5, linewidth=2)
+        ax.plot(path_x, path_y, marker='o', color='red', markersize=marker_size, linewidth=linewidth)
 
         plt.show()
 
@@ -55,13 +60,13 @@ class Maze:
         :param path: List[Tuple[int, int]], the path to display on the maze.
         :param filename: str, the path to save the image
         """
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(max(self.width / 5, 10), max(self.height / 5, 10)))
         ax.set_xticks([]), ax.set_yticks([])
 
         # Plot the maze
         ax.imshow(self.grid, cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
 
-        base_size = 7
+        base_size = 15
         marker_size = base_size * min(1, base_size / max(self.width, self.height))
 
         linewidth = base_size * min(1, base_size / max(self.width, self.height)) * 0.5

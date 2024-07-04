@@ -36,13 +36,14 @@ class DFSSolver:
         self.path = []
         self.ims = []
         if not animate:
-            self._dfs(start, end)
+            self._dfs_stack(start, end)
             self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
             return self.path
+        print("generating animation")
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
         ax.set_xticks([]), ax.set_yticks([])
 
-        self._dfs(start, end, animate=True)
+        self._dfs_stack(start, end, animate=True)
 
         self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
         im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL,
@@ -68,9 +69,45 @@ class DFSSolver:
             )
             self.ims.append([im, path_graph, green_dot])
 
+        print("saving animation")
         ani = ArtistAnimation(fig, self.ims, interval=100, blit=True)
         ani.save(animation_filename, writer='ffmpeg')
+        plt.close()
         return self.path
+
+    def _dfs_stack(self, start, end, animate=False):
+        """
+        The stack-based DFS function.
+        :param start: Tuple[int, int], the starting position in the maze.
+        :param end: Tuple[int, int], the ending position in the maze.
+        :param animate: bool, whether to animate the solving process.
+        """
+        stack = [(start, [(2*start[0]+1, 2*start[1]+1)])]
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Right, Down, Left, Up
+
+        while stack:
+            (x, y), current_path = stack.pop()
+            cell_x, cell_y = 2 * x + 1, 2 * y + 1
+
+            if (x, y) == end:
+                self.path = current_path
+                return True
+
+            self.visited[x, y] = True
+            self.maze.grid[cell_x, cell_y] = Structures.SELECTED
+
+            if animate:
+                im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL,
+                                animated=True)
+                self.ims.append([im])
+
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and not self.visited[nx, ny] and self.maze.grid[2*nx+1-dx, 2*ny+1-dy] != Structures.WALL:
+                    self.maze.grid[2 * x + 1 + dx, 2 * y + 1 + dy] = Structures.SELECTED
+                    stack.append(((nx, ny), current_path + [(2*nx+1, 2*ny+1)]))
+
+        return False
 
     def _dfs(self, current, end, animate=False):
         """

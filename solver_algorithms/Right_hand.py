@@ -41,6 +41,7 @@ class RightHandRuleSolver:
         print("saving animation")
         ani = ArtistAnimation(fig, ims, interval=100, blit=True)
         ani.save(animation_filename, writer='ffmpeg')
+        plt.close()
         return path
 
     def solve_helper(self, start, end):

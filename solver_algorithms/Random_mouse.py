@@ -34,7 +34,7 @@ class RandomMouseSolver:
             self._random_mouse(start, end)
             self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
             return self.path
-
+        print("generating animation")
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
         ax.set_xticks([]), ax.set_yticks([])
 
@@ -63,8 +63,10 @@ class RandomMouseSolver:
             )
             self.ims.append([im, path_graph, green_dot])
 
+        print("saving animation")
         ani = ArtistAnimation(fig, self.ims, interval=100, blit=True)
         ani.save(animation_filename, writer='ffmpeg')
+        plt.close()
         return self.path
 
     def _random_mouse(self, start, end, animate=False):

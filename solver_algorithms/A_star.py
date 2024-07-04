@@ -23,9 +23,11 @@ class AStarSolver:
         self.path = []
         self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
 
-    def solve(self, start, end, animate=False, animation_filename=""):
+    def solve(self, start, end, animate=False, animation_filename="", manhattan=False):
         """
         Solve the maze using the A* algorithm.
+        :param manhattan: Should we use manhattan distance or Euclidean ? (manhattan if true Euclidean distance else)
+        (the Euclidean distance is calculated without the square root to give more weight to the distances)
         :param start: Tuple[int, int], the starting point of the maze.
         :param end: Tuple[int, int], the ending point of the maze.
         :return: List[Tuple[int, int]], the path from start to end.
@@ -34,13 +36,14 @@ class AStarSolver:
         self.path = []
         self.ims = []
         if not animate:
-            self._a_star(start, end)
+            self._a_star(start, end, manhattan=manhattan)
             return self.path
 
+        print("generating animation")
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
         ax.set_xticks([]), ax.set_yticks([])
 
-        self._a_star(start, end, animate=True)
+        self._a_star(start, end, animate=True, manhattan=manhattan)
 
         self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
         im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL,
@@ -65,11 +68,13 @@ class AStarSolver:
             )
             self.ims.append([im, path_graph, green_dot])
 
+        print("saving animation")
         ani = ArtistAnimation(fig, self.ims, interval=100, blit=True)
         ani.save(animation_filename, writer='ffmpeg')
+        plt.close()
         return self.path
 
-    def _a_star(self, start, end, animate=False):
+    def _a_star(self, start, end, animate=False, manhattan=False):
         """
         The A* algorithm function.
         :param start: Tuple[int, int], the starting position in the maze.
@@ -80,8 +85,9 @@ class AStarSolver:
         heapq.heappush(priority_queue, (0, start))
         parent = {start: None}
         g_cost = {start: 0}
-        self.visited[start[0], start[1]] = True
-        self.maze.grid[2 * start[0] + 1, 2 * start[1] + 1] = Structures.SELECTED
+        start_x, start_y = start
+        self.visited[start_x, start_y] = True
+        self.maze.grid[2 * start_x + 1, 2 * start_y + 1] = Structures.SELECTED
 
         while priority_queue:
             current_cost, (x, y) = heapq.heappop(priority_queue)
@@ -95,12 +101,16 @@ class AStarSolver:
 
             for dx, dy in directions:
                 nx, ny = x + dx, y + dy
-                new_g_cost = g_cost[(x, y)] + 1  # Uniform cost for each step
+                new_g_cost = g_cost.get((x, y)) + 1  # Uniform cost for each step
 
-                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and not self.visited[nx, ny] and self.maze.grid[2*nx+1-dx, 2*ny+1-dy] != Structures.WALL:
+                if 0 <= nx < self.maze.width and 0 <= ny < self.maze.height and  \
+                        not self.visited[nx, ny] and self.maze.grid[2*nx+1-dx, 2*ny+1-dy] != Structures.WALL:
                     if (nx, ny) not in g_cost or new_g_cost < g_cost[(nx, ny)]:
                         g_cost[(nx, ny)] = new_g_cost
-                        h_cost = abs(nx - end[0]) + abs(ny - end[1])  # Manhattan distance
+                        if manhattan:
+                            h_cost = abs(nx - end[0]) + abs(ny - end[1])  # Manhattan distance
+                        else:
+                            h_cost = abs(nx - end[0]) ** 2 + abs(ny - end[1]) ** 2  # Euclidian distance without sqrt
                         f_cost = new_g_cost + h_cost
                         heapq.heappush(priority_queue, (f_cost, (nx, ny)))
                         parent[(nx, ny)] = (x, y)

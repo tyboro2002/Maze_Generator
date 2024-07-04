@@ -33,7 +33,8 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
 
         if orientation == 'H':
             wallx = x
-            wally = y + (height // 2)  # TODO place wall random instead in mid
+            wall_index = random.randint(1, height - 1)
+            wally = y + wall_index
             passagex = wallx + random.randint(0, width - 1)
             passagey = wally
             dx = 1
@@ -41,7 +42,8 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
             length = width
             next_orientation = 'V'
         else:
-            wallx = x + (width // 2)  # TODO place wall random instead in mid
+            wall_index = random.randint(1, width - 1)
+            wallx = x + wall_index
             wally = y
             passagex = wallx
             passagey = wally + random.randint(0, height - 1)
@@ -69,15 +71,12 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
         else:
             self.maze.grid[2 * passagex, 2 * passagey + 1] = Structures.SELECTED
 
-        half_height = height // 2
-        half_width = width // 2
-
         if orientation == 'H':
-            self.divide(x, y + half_height, width, height - half_height, next_orientation)
-            self.divide(x, y, width, half_height, next_orientation)
+            self.divide(x, y + wall_index, width, height - wall_index, next_orientation)
+            self.divide(x, y, width, wall_index, next_orientation)
         else:
-            self.divide(x + half_width, y, width - half_width, height, next_orientation)
-            self.divide(x, y, half_width, height, next_orientation)
+            self.divide(x + wall_index, y, width - wall_index, height, next_orientation)
+            self.divide(x, y, wall_index, height, next_orientation)
 
     def generate(self) -> None:
         """
@@ -118,7 +117,8 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
 
             if orientation == 'H':
                 wallx = x
-                wally = y + (height // 2)
+                wall_index = random.randint(1, height - 1)
+                wally = y + wall_index
                 passagex = wallx + random.randint(0, width - 1)
                 passagey = wally
                 dx = 1
@@ -126,7 +126,8 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
                 length = width
                 next_orientation = 'V'
             else:
-                wallx = x + (width // 2)
+                wall_index = random.randint(1, width - 1)
+                wallx = x + wall_index
                 wally = y
                 passagex = wallx
                 passagey = wally + random.randint(0, height - 1)
@@ -164,14 +165,11 @@ class RecursiveDivisionMazeGenerator(MazeGenerator):
             )
             ims.append([im, red_dot])
 
-            half_height = height//2
-            half_width = width//2
-
             if orientation == 'H':
-                steps.append((x, y + half_height, width, height-half_height, next_orientation))
-                steps.append((x, y, width, half_height, next_orientation))
+                steps.append((x, y + wall_index, width, height-wall_index, next_orientation))
+                steps.append((x, y, width, wall_index, next_orientation))
             else:
-                steps.append((x + half_width, y, width-half_width, height, next_orientation))
-                steps.append((x, y, half_width, height, next_orientation))
+                steps.append((x + wall_index, y, width-wall_index, height, next_orientation))
+                steps.append((x, y, wall_index, height, next_orientation))
 
         return ArtistAnimation(fig, ims, interval=100, blit=True)

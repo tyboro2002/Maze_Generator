@@ -33,7 +33,7 @@ class BFSSolver:
         if not animate:
             self._bfs(start, end)
             return self.path
-
+        print("generating animation")
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
         ax.set_xticks([]), ax.set_yticks([])
 
@@ -62,8 +62,10 @@ class BFSSolver:
             )
             self.ims.append([im, path_graph, green_dot])
 
+        print("saving animation")
         ani = ArtistAnimation(fig, self.ims, interval=100, blit=True)
         ani.save(animation_filename, writer='ffmpeg')
+        plt.close()
         return self.path
 
     def _bfs(self, start, end, animate=False):
