@@ -19,6 +19,7 @@ class DFSSolver:
     the method as the correct path.
     """
     def __init__(self, maze):
+        self.ims = None
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
@@ -36,6 +37,7 @@ class DFSSolver:
         self.ims = []
         if not animate:
             self._dfs(start, end)
+            self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
             return self.path
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
         ax.set_xticks([]), ax.set_yticks([])

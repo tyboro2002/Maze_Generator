@@ -14,6 +14,7 @@ class BFSSolver:
     Repeat until a match is found, or the stack is empty.
     """
     def __init__(self, maze):
+        self.ims = None
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
@@ -94,9 +95,9 @@ class BFSSolver:
                     parent[(nx, ny)] = (x, y)
                     self.visited[nx, ny] = True
                     self.maze.grid[2 * nx + 1, 2 * ny + 1] = Structures.SELECTED
+                    self.maze.grid[cell_x + dx, cell_y + dy] = Structures.SELECTED
 
                     if animate:
-                        self.maze.grid[2 * x + 1 + dx, 2 * y + 1 + dy] = Structures.SELECTED
                         im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL, animated=True)
                         self.ims.append([im])
 

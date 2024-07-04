@@ -1,11 +1,11 @@
-size = 50
+size = 10
 sizeWidth = size
 sizeHeight = size
 sizeFractal = 16  # this must be a power of 2
 sizeWidthFractal = sizeFractal
 sizeHeightFractal = sizeFractal
-animate = False  # Should we generate animations of the maze generation
-animate_solutions = True  # Should we generate animations of the maze solving
+animate = True  # Should we generate animations of the maze generation
+animate_solutions = False  # Should we generate animations of the maze solving
 add_maze_size_to_name = False
 mazes_dir = "mazes/"  # The base path where all mazes will be stored
 animations_dir = "animations/"  # The base path where all animations of the maze generation will be stored

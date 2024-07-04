@@ -19,6 +19,7 @@ class DijkstraSolver:
     Insert each of the current node's children into the priority queue.
     """
     def __init__(self, maze):
+        self.ims = None
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
@@ -107,9 +108,9 @@ class DijkstraSolver:
                         parent[(nx, ny)] = (x, y)
                         self.visited[nx, ny] = True
                         self.maze.grid[2 * nx + 1, 2 * ny + 1] = Structures.SELECTED
+                        self.maze.grid[cell_x + dx, cell_y + dy] = Structures.SELECTED
 
                         if animate:
-                            self.maze.grid[cell_x + dx, cell_y + dy] = Structures.SELECTED
                             im = plt.imshow(
                                 self.maze.grid.copy(),
                                 cmap='binary',

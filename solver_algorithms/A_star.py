@@ -8,12 +8,20 @@ from matplotlib.animation import ArtistAnimation
 class AStarSolver:
     """
     A solver that uses the A* algorithm to find the shortest path in a maze.
+    
+    A* keeps track of two different factors. First, how expensive it was to get to a given node from the origin.
+    Second, the minimum predicted cost of getting from that node to the goal. A* predicts the cost of traveling through
+    a given node based on a heuristic function we provide it, which is based on the structure of our maze.
+    
+    In this case, we set the heuristic function to calculate the manhattan distance between the current node and the
+    target node, so that our search will be encouraged to go as directly toward the goal as possible.
     """
     def __init__(self, maze):
+        self.ims = None
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
-        self.maze.grid[self.maze.grid == 1] = 0
+        self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
 
     def solve(self, start, end, animate=False, animation_filename=""):
         """
@@ -98,9 +106,9 @@ class AStarSolver:
                         parent[(nx, ny)] = (x, y)
                         self.visited[nx, ny] = True
                         self.maze.grid[2 * nx + 1, 2 * ny + 1] = Structures.SELECTED
+                        self.maze.grid[cell_x + dx, cell_y + dy] = Structures.SELECTED
 
                         if animate:
-                            self.maze.grid[2 * x + 1 + dx, 2 * y + 1 + dy] = Structures.SELECTED
                             im = plt.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL, animated=True)
                             self.ims.append([im])
 

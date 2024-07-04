@@ -13,6 +13,7 @@ class RandomMouseSolver:
     require any memory. The robot proceeds following a random decision about the next direction to follow.
     """
     def __init__(self, maze):
+        self.ims = None
         self.maze = maze
         self.visited = np.zeros_like(maze.grid, dtype=bool)
         self.path = []
@@ -31,6 +32,7 @@ class RandomMouseSolver:
 
         if not animate:
             self._random_mouse(start, end)
+            self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
             return self.path
 
         fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))

@@ -10,6 +10,7 @@ class RightHandRuleSolver:
     """
     def __init__(self, maze):
         self.maze = maze
+        self.maze.grid[self.maze.grid == Structures.EMPTY] = Structures.SELECTED
 
     def solve(self, start, end, animate=False, animation_filename=""):
         path = self.solve_helper(start, end)
