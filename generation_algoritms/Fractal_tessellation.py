@@ -15,6 +15,7 @@ class FractalTessellationMazeGenerator(MazeGenerator):
     """
     def __init__(self, maze):
         super().__init__(maze)
+        self.points = []
         self.current_width = 1
         self.current_height = 1
 
@@ -31,22 +32,23 @@ class FractalTessellationMazeGenerator(MazeGenerator):
         ] = region
         pos_arrangements = ['lbu', 'rbu', 'lru', 'rlb']
         arrangement = random.choice(pos_arrangements)
+        self.points = []
         if 'r' in arrangement:
-            self.maze.grid[
-                (2 * self.current_height, 2 * random.randint(self.current_width, 2 * self.current_width-1)+1)
-            ] = Structures.SELECTED
+            point = (2 * self.current_height, 2 * random.randint(self.current_width, 2 * self.current_width-1)+1)
+            self.points.append(point)
+            self.maze.grid[point] = Structures.SELECTED
         if 'b' in arrangement:
-            self.maze.grid[
-                (2 * random.randint(self.current_height, 2 * self.current_height-1) + 1, 2 * self.current_width)
-            ] = Structures.SELECTED
+            point = (2 * random.randint(self.current_height, 2 * self.current_height-1) + 1, 2 * self.current_width)
+            self.points.append(point)
+            self.maze.grid[point] = Structures.SELECTED
         if 'u' in arrangement:
-            self.maze.grid[
-                (2 * random.randint(1, self.current_height) - 1, 2 * self.current_width)
-            ] = Structures.SELECTED
+            point = (2 * random.randint(1, self.current_height) - 1, 2 * self.current_width)
+            self.points.append(point)
+            self.maze.grid[point] = Structures.SELECTED
         if 'l' in arrangement:
-            self.maze.grid[
-                (2 * self.current_height, 2 * random.randint(1, self.current_width)-1)
-            ] = Structures.SELECTED
+            point = (2 * self.current_height, 2 * random.randint(1, self.current_width)-1)
+            self.points.append(point)
+            self.maze.grid[point] = Structures.SELECTED
         self.current_width *= 2
         self.current_height *= 2
         # print(f"expanded width: {self.current_width//2}, height: {self.current_height//2}")
@@ -73,11 +75,21 @@ class FractalTessellationMazeGenerator(MazeGenerator):
                        animated=True)
         ims.append([im])
 
+        # Calculate marker size based on maze dimensions
+        base_size = 15
+        marker_size = base_size * min(1, base_size / max(self.maze.width, self.maze.height))
+
         # expand until size is found
         while self.current_width < self.maze.width or self.current_height < self.maze.height:
             self.expand_maze()
             im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL,
                            animated=True)
-            ims.append([im])
+            red_dot1, = ax.plot(self.points[0][1], self.points[0][0], marker='o', color='red', markersize=marker_size,
+                               animated=True)
+            red_dot2, = ax.plot(self.points[1][1], self.points[1][0], marker='o', color='red', markersize=marker_size,
+                                animated=True)
+            red_dot3, = ax.plot(self.points[2][1], self.points[2][0], marker='o', color='red', markersize=marker_size,
+                                animated=True)
+            ims.append([im, red_dot1, red_dot2, red_dot3])
 
         return ArtistAnimation(fig, ims, interval=1000, blit=True, repeat_delay=1000)

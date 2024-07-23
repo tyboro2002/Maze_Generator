@@ -1,48 +1,17 @@
+from Maze import Solver
 from settings import Structures
 
-from matplotlib import pyplot as plt
-from matplotlib.animation import ArtistAnimation
 
-
-class LeftHandRuleSolver:
+class LeftHandRuleSolver(Solver):
     """
     keep a wall at the left at all time
     """
     def __init__(self, maze):
-        self.maze = maze
+        super().__init__(maze, reverse_path=False)
         self.maze.grid[self.maze.grid == Structures.EMPTY] = Structures.SELECTED
 
-    def solve(self, start, end, animate=False, animation_filename=""):
-        path = self.solve_helper(start, end)
-        if not animate:
-            return path
-        print("generating animation")
-        fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
-        ax.set_xticks([]), ax.set_yticks([])
-
-        ims = []
-        im = ax.imshow(self.maze.grid.copy(), cmap='binary', vmin=Structures.EMPTY, vmax=Structures.WALL)
-
-        for i in range(1, len(path)+1):
-            # Plot the path
-            cur_path = path[:i]
-            path_y, path_x = zip(*cur_path)
-            path_graph, = ax.plot(path_x, path_y, marker='o', color='red', markersize=5, linewidth=2)
-
-            green_dot, = ax.plot(
-                cur_path[-1][1], cur_path[-1][0],
-                marker='o',
-                color='green',
-                markersize=5,
-                animated=True
-            )
-            ims.append([im, path_graph, green_dot])
-
-        print("saving animation")
-        ani = ArtistAnimation(fig, ims, interval=100, blit=True)
-        ani.save(animation_filename, writer='ffmpeg')
-        plt.close()
-        return path
+    def solve_step(self, start, end, animate):
+        self.path = self.solve_helper(start, end)
 
     def solve_helper(self, start, end):
         """
