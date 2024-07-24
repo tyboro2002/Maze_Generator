@@ -1,9 +1,10 @@
 from settings import solutions_animation_dir, add_maze_size_to_name, solutions_animation_filetype, solutions_dir, \
     solutions_filetype, random_mouse_solver, right_hand_rule_solver, left_hand_rule_solver, a_star_solver_manhattan, \
-    a_star_solver_euclidean, dfs_solver, bfs_solver, dijkstra_solver
+    a_star_solver_euclidean, dfs_solver, bfs_solver, dijkstra_solver, dead_end_filling_solver
 from solver_algorithms.A_star import AStarSolver
 from solver_algorithms.BFS import BFSSolver
 from solver_algorithms.DFS import DFSSolver
+from solver_algorithms.Dead_end_filling import DeadEndFiller
 from solver_algorithms.Dijkstra import DijkstraSolver
 from solver_algorithms.Left_hand import LeftHandRuleSolver
 from solver_algorithms.Random_mouse import RandomMouseSolver
@@ -148,3 +149,20 @@ def solveMaze(maze, name, animate=False):
             (f"_{maze.width}x{maze.height}" if add_maze_size_to_name else "") + solutions_filetype
         )
         print(f"{name} maze solve with A* (Euclidean) done")
+
+    if dead_end_filling_solver:
+        print(f"{name} maze solve with dead end filling start")
+        maze.save_path(
+            DeadEndFiller(
+                maze
+            ).solve(
+                (0, 0),
+                (maze.width - 1, maze.height - 1),
+                animate=animate,
+                animation_filename=solutions_animation_dir + name + "/DeadEndFiller" +
+                (f"_{maze.width}x{maze.height}" if add_maze_size_to_name else "") + solutions_animation_filetype
+            )
+            , solutions_dir + name + "/DeadEndFiller" +
+            (f"_{maze.width}x{maze.height}" if add_maze_size_to_name else "") + solutions_filetype
+        )
+        print(f"{name} maze solve with dead end filling done")

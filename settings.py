@@ -48,9 +48,10 @@ bfs_solver = run_solver
 dijkstra_solver = run_solver
 a_star_solver_manhattan = run_solver
 a_star_solver_euclidean = run_solver
+dead_end_filling_solver = True
 
 
 class Structures:
-    WALL = 2
-    SELECTED = 1
+    WALL = 4
+    SELECTED = 2
     EMPTY = 0

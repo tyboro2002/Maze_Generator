@@ -19,6 +19,29 @@ class Maze:
         self.grid[0::2, :] = Structures.WALL  # Horizontal walls
         self.grid[:, 0::2] = Structures.WALL  # Vertical walls
 
+    def is_dead_end(self, x, y):
+        neighbours = 0
+        last_neighbour = None
+        if self.grid[x, y] == Structures.WALL:
+            return False
+        if self.grid[x+1, y] == Structures.SELECTED or self.grid[x+1, y] == Structures.EMPTY:
+            last_neighbour = (1, 0)
+            neighbours += 1
+        if self.grid[x, y+1] == Structures.SELECTED or self.grid[x, y+1] == Structures.EMPTY:
+            last_neighbour = (0, 1)
+            neighbours += 1
+        if self.grid[x-1, y] == Structures.SELECTED or self.grid[x-1, y] == Structures.EMPTY:
+            last_neighbour = (-1, 0)
+            neighbours += 1
+        if self.grid[x, y-1] == Structures.SELECTED or self.grid[x, y-1] == Structures.EMPTY:
+            last_neighbour = (0, -1)
+            neighbours += 1
+        # print(neighbours)
+        if neighbours == 1:
+            return last_neighbour
+        else:
+            return False
+
     def reset(self) -> None:
         """
         Reset the maze to its initial state.
@@ -149,16 +172,15 @@ class Solver:
         :param end: Tuple[int, int], the ending point of the maze.
         :return: List[Tuple[int, int]], the path from start to end.
         """
-        self.solve_setup()
+        fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
+        ax.set_xticks([]), ax.set_yticks([])
+        self.solve_setup(start, end, ax, animate=animate)
         if not animate:
             self.solve_step(start, end, animate)
             self.maze.grid[2 * end[0] + 1, 2 * end[1] + 1] = Structures.SELECTED
             return self.path
 
         print("generating animation")
-
-        fig, ax = plt.subplots(figsize=(self.maze.width / 2, self.maze.height / 2))
-        ax.set_xticks([]), ax.set_yticks([])
 
         self.solve_step(start, end, animate)
 
@@ -204,5 +226,5 @@ class Solver:
     # def solve_setup(self):
     #     raise NotImplementedError("You should implement this method in subclasses.")
 
-    def solve_setup(self):
+    def solve_setup(self, start=None, end=None, ax=None, animate=False):
         self.visited.fill(False)

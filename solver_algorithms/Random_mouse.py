@@ -1,8 +1,6 @@
 import random
 
-import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import ArtistAnimation
 
 from Maze import Solver
 from settings import Structures

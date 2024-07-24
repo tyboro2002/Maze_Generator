@@ -1,9 +1,6 @@
 from Maze import Solver
 from settings import Structures
 
-from matplotlib import pyplot as plt
-from matplotlib.animation import ArtistAnimation
-
 
 class RightHandRuleSolver(Solver):
     """

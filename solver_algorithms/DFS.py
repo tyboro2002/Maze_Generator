@@ -1,6 +1,5 @@
 from Maze import Solver
 from settings import Structures
-import numpy as np
 
 import matplotlib.pyplot as plt
 
