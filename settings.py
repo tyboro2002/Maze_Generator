@@ -1,7 +1,7 @@
 size = 10
 sizeWidth = size
 sizeHeight = size
-sizeFractal = 8  # this must be a power of 2
+sizeFractal = 16  # this must be a power of 2
 sizeWidthFractal = sizeFractal
 sizeHeightFractal = sizeFractal
 animate = True  # Should we generate animations of the maze generation
@@ -19,14 +19,15 @@ solutions_animation_filetype = ".mp4"
 
 
 # what mazes need to be generated
-run_generator = True
+run_generator = False
 fractal_tessellation = run_generator
-aldous_broder = False
+aldous_broder = run_generator
 dfs = run_generator
 prims = run_generator
 randomized_kruskal = run_generator
 wilson = run_generator
 recursive_division = run_generator
+side_winder = True
 
 # what mazes need to be solved (if not generated they will also not be solved)
 run_solve = True
@@ -37,10 +38,11 @@ solve_prims = run_solve
 solve_randomized_kruskal = run_solve
 solve_wilson = run_solve
 solve_recursive_division = run_solve
+solve_side_winder = True
 
 # what solvers need to be used
 run_solver = True
-random_mouse_solver = False
+random_mouse_solver = True
 right_hand_rule_solver = run_solver
 left_hand_rule_solver = run_solver
 dfs_solver = run_solver
