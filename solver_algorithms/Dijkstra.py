@@ -19,7 +19,7 @@ class DijkstraSolver(Solver):
     """
     def __init__(self, maze):
         super().__init__(maze)
-        self.maze.grid[self.maze.grid == 1] = 0
+        self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
 
     def solve_step(self, start, end, animate):
         self._dijkstra(start, end, animate=animate)

@@ -1,6 +1,7 @@
 from Maze import Maze
 from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
 from generation_algoritms.DFS import DFSMazeGenerator
+from generation_algoritms.Ellers import EllersMazeGenerator
 from generation_algoritms.Fractal_tessellation import FractalTessellationMazeGenerator
 from generation_algoritms.Prims import PrimsMazeGenerator
 from generation_algoritms.Randomized_kruskal_set import RandomizedKruskalSetMazeGenerator
@@ -11,21 +12,11 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, 
     add_maze_size_to_name, sizeWidthFractal, sizeHeightFractal, animate_solutions, fractal_tessellation, \
     solve_fractal_tessellation, aldous_broder, solve_aldous_broder, dfs, solve_dfs, prims, solve_prims, \
     randomized_kruskal, solve_randomized_kruskal, wilson, solve_wilson, recursive_division, solve_recursive_division, \
-    side_winder, solve_side_winder
+    side_winder, solve_side_winder, solve_eller, eller
 from solvingMain import solveMaze
 
 # if you get an error that a path is not found make a directory
 # TODO make a function to do this
-
-# TODO Eller's Algorithm:
-# Generates the maze row by row, maintaining and merging sets of cells.
-# Ensures that cells are connected across rows while maintaining a single connected component.
-# This is more suitable for on-the-fly generation of very wide mazes.
-# steps:
-# Initialize the first row with sets of cells.
-# Randomly connect adjacent cells in the row, ensuring that each cell has at least one connection.
-# Move to the next row, propagating sets and creating vertical connections.
-# Repeat for each row until the maze is complete.
 
 # TODO Hunt and Kill:
 # Starts from a random cell, performs a random walk (like DFS), and marks cells as visited.
@@ -202,3 +193,18 @@ if __name__ == '__main__':
         print("Side Winder done")
         if solve_side_winder:
             solveMaze(maze, "Side_Winder", animate=animate_solutions)
+
+    if eller:
+        print("Eller start")
+        EllersMazeGenerator(
+            maze
+        ).run(
+            maze_filename=mazes_dir + "Eller_maze" +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+            animate=animate,
+            animation_filename=animations_dir + 'Eller_maze_animation' +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+        )
+        print("Eller done")
+        if solve_eller:
+            solveMaze(maze, "Eller", animate=animate_solutions)

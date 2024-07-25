@@ -27,7 +27,8 @@ prims = run_generator
 randomized_kruskal = run_generator
 wilson = run_generator
 recursive_division = run_generator
-side_winder = True
+side_winder = run_generator
+eller = True
 
 # what mazes need to be solved (if not generated they will also not be solved)
 run_solve = True
@@ -38,7 +39,8 @@ solve_prims = run_solve
 solve_randomized_kruskal = run_solve
 solve_wilson = run_solve
 solve_recursive_division = run_solve
-solve_side_winder = True
+solve_side_winder = run_solve
+solve_eller = True
 
 # what solvers need to be used
 run_solver = True
@@ -50,7 +52,7 @@ bfs_solver = run_solver
 dijkstra_solver = run_solver
 a_star_solver_manhattan = run_solver
 a_star_solver_euclidean = run_solver
-dead_end_filling_solver = True
+dead_end_filling_solver = run_solver
 
 
 class Structures:
