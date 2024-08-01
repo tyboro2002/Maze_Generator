@@ -28,7 +28,10 @@ randomized_kruskal = run_generator
 wilson = run_generator
 recursive_division = run_generator
 side_winder = run_generator
-eller = True
+eller = run_generator
+hunt_and_kill = run_generator
+spiral_backtracker = run_generator
+sigma = True
 
 # what mazes need to be solved (if not generated they will also not be solved)
 run_solve = True
@@ -40,11 +43,14 @@ solve_randomized_kruskal = run_solve
 solve_wilson = run_solve
 solve_recursive_division = run_solve
 solve_side_winder = run_solve
-solve_eller = True
+solve_eller = run_solve
+solve_hunt_and_kill = run_solve
+solve_spiral_backtracker = run_solve
+solve_sigma = True
 
 # what solvers need to be used
 run_solver = True
-random_mouse_solver = True
+random_mouse_solver = False
 right_hand_rule_solver = run_solver
 left_hand_rule_solver = run_solver
 dfs_solver = run_solver

@@ -3,29 +3,25 @@ from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
 from generation_algoritms.DFS import DFSMazeGenerator
 from generation_algoritms.Ellers import EllersMazeGenerator
 from generation_algoritms.Fractal_tessellation import FractalTessellationMazeGenerator
+from generation_algoritms.Hunt_and_kill import HuntAndKillMazeGenerator
 from generation_algoritms.Prims import PrimsMazeGenerator
 from generation_algoritms.Randomized_kruskal_set import RandomizedKruskalSetMazeGenerator
 from generation_algoritms.Recursive_division import RecursiveDivisionMazeGenerator
 from generation_algoritms.Side_winder import SidewinderMazeGenerator
+from generation_algoritms.Sigma import SigmaMazeGenerator
+from generation_algoritms.Spiral_backtracker import SpiralBacktrackerMazeGenerator
 from generation_algoritms.Wilson import WilsonMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, mazes_filetype, animations_filetype, \
     add_maze_size_to_name, sizeWidthFractal, sizeHeightFractal, animate_solutions, fractal_tessellation, \
     solve_fractal_tessellation, aldous_broder, solve_aldous_broder, dfs, solve_dfs, prims, solve_prims, \
     randomized_kruskal, solve_randomized_kruskal, wilson, solve_wilson, recursive_division, solve_recursive_division, \
-    side_winder, solve_side_winder, solve_eller, eller
+    side_winder, solve_side_winder, solve_eller, eller, hunt_and_kill, solve_hunt_and_kill, spiral_backtracker, \
+    solve_spiral_backtracker, sigma, solve_sigma
 from solvingMain import solveMaze
 
 # if you get an error that a path is not found make a directory
 # TODO make a function to do this
 
-# TODO Hunt and Kill:
-# Starts from a random cell, performs a random walk (like DFS), and marks cells as visited.
-# If it reaches a dead end, it hunts for the next unvisited cell adjacent to a visited cell and continues from there.
-# This can create mazes with a mix of long corridors and shorter dead ends.
-# steps:
-# Start at a random cell and perform a random walk until reaching a dead end.
-# Hunt for an unvisited cell adjacent to a visited cell and continue the walk.
-# Repeat until all cells are visited.
 
 # TODO Binary Tree:
 # Simple and fast.
@@ -40,20 +36,6 @@ from solvingMain import solveMaze
 # Strategies include always choosing the most recently added cell (DFS-like), a random cell (Prim-like), or a
 # combination of strategies.
 
-# TODO Sigma Algorithm
-# Description: This is a variant of the Prim's algorithm.
-# Steps:
-# Start with a grid full of walls.
-# Randomly select a cell, mark it as part of the maze, and add its neighbors to a set.
-# While there are cells in the set, randomly select a cell from the set, remove a wall between it and an adjacent cell
-# that's already part of the maze, and add its neighbors to the set.
-# Repeat until all cells are part of the maze.
-
-# TODO Spiral Backtracker
-# Description: This algorithm generates mazes with a spiral pattern.
-# Steps:
-# Start at a central cell and carve out a spiral path outward.
-# Use a backtracking method to fill in dead ends and create additional paths.
 
 # TODO Unicursal Maze
 # Description: This algorithm creates mazes with a single continuous path.
@@ -208,3 +190,48 @@ if __name__ == '__main__':
         print("Eller done")
         if solve_eller:
             solveMaze(maze, "Eller", animate=animate_solutions)
+
+    if hunt_and_kill:
+        print("Hunt And Kill start")
+        HuntAndKillMazeGenerator(
+            maze
+        ).run(
+            maze_filename=mazes_dir + "Hunt_And_Kill_maze" +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+            animate=animate,
+            animation_filename=animations_dir + 'Hunt_And_Kill_maze_animation' +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+        )
+        print("Hunt And Kill done")
+        if solve_hunt_and_kill:
+            solveMaze(maze, "Hunt_And_Kill", animate=animate_solutions)
+
+    if spiral_backtracker:
+        print("Spiral Backtracker start")
+        SpiralBacktrackerMazeGenerator(
+            maze
+        ).run(
+            maze_filename=mazes_dir + "Spiral_Backtracker_maze" +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+            animate=animate,
+            animation_filename=animations_dir + 'Spiral_Backtracker_maze_animation' +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+        )
+        print("Spiral Backtracker done")
+        if solve_spiral_backtracker:
+            solveMaze(maze, "Spiral_Backtracker", animate=animate_solutions)
+
+    if sigma:
+        print("Sigma start")
+        SigmaMazeGenerator(
+            maze
+        ).run(
+            maze_filename=mazes_dir + "Sigma_maze" +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+            animate=animate,
+            animation_filename=animations_dir + 'Sigma_maze_animation' +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+        )
+        print("Sigma done")
+        if solve_sigma:
+            solveMaze(maze, "Sigma", animate=animate_solutions)

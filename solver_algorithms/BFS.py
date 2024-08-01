@@ -18,7 +18,7 @@ class BFSSolver(Solver):
         self.maze.grid[self.maze.grid == Structures.SELECTED] = Structures.EMPTY
 
     def solve_step(self, start, end, animate):
-        self._bfs(start, end)
+        self._bfs(start, end, animate=animate)
 
     def _bfs(self, start, end, animate=False):
         """
