@@ -1,5 +1,6 @@
 from Maze import Maze
 from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
+from generation_algoritms.Binary_tree import BinaryTreeMazeGenerator
 from generation_algoritms.DFS import DFSMazeGenerator
 from generation_algoritms.Ellers import EllersMazeGenerator
 from generation_algoritms.Fractal_tessellation import FractalTessellationMazeGenerator
@@ -17,17 +18,12 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, 
     solve_fractal_tessellation, aldous_broder, solve_aldous_broder, dfs, solve_dfs, prims, solve_prims, \
     randomized_kruskal, solve_randomized_kruskal, wilson, solve_wilson, recursive_division, solve_recursive_division, \
     side_winder, solve_side_winder, solve_eller, eller, hunt_and_kill, solve_hunt_and_kill, spiral_backtracker, \
-    solve_spiral_backtracker, sigma, solve_sigma, solve_unicursal, unicursal
+    solve_spiral_backtracker, sigma, solve_sigma, solve_unicursal, unicursal, binary_tree, solve_binary_tree
 from solvingMain import solveMaze
 
 # if you get an error that a path is not found make a directory
 # TODO make a function to do this
 
-
-# TODO Binary Tree:
-# Simple and fast.
-# For each cell, it randomly removes either the north or west wall (or a specific set of directions).
-# This algorithm is less effective for creating complex mazes but is very efficient.
 
 # TODO Amoeba Maze
 # Description: This algorithm uses cellular automata to generate organic-looking mazes.
@@ -234,4 +230,19 @@ if __name__ == '__main__':
         )
         print("Unicursal done")
         if solve_unicursal:
-            solveMaze(maze, "Sigma", animate=animate_solutions)
+            solveMaze(maze, "Unicursal", animate=animate_solutions)
+
+    if binary_tree:
+        print("Binary_Tree start")
+        BinaryTreeMazeGenerator(
+            maze
+        ).run(
+            maze_filename=mazes_dir + "Binary_Tree_maze" +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+            animate=animate,
+            animation_filename=animations_dir + 'Binary_Tree_maze_animation' +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+        )
+        print("Binary_Tree done")
+        if solve_binary_tree:
+            solveMaze(maze, "Binary_Tree", animate=animate_solutions)

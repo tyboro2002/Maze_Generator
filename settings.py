@@ -32,7 +32,8 @@ eller = run_generator
 hunt_and_kill = run_generator
 spiral_backtracker = run_generator
 sigma = run_generator
-unicursal = True
+unicursal = run_generator
+binary_tree = True
 
 
 # what mazes need to be solved (if not generated they will also not be solved)
@@ -49,7 +50,8 @@ solve_eller = run_solve
 solve_hunt_and_kill = run_solve
 solve_spiral_backtracker = run_solve
 solve_sigma = run_solve
-solve_unicursal = True
+solve_unicursal = run_solve
+solve_binary_tree = True
 
 # what solvers need to be used
 run_solver = True
