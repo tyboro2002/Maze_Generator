@@ -10,13 +10,14 @@ from generation_algoritms.Recursive_division import RecursiveDivisionMazeGenerat
 from generation_algoritms.Side_winder import SidewinderMazeGenerator
 from generation_algoritms.Sigma import SigmaMazeGenerator
 from generation_algoritms.Spiral_backtracker import SpiralBacktrackerMazeGenerator
+from generation_algoritms.Unicursal import UnicursalMazeGenerator
 from generation_algoritms.Wilson import WilsonMazeGenerator
 from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, mazes_filetype, animations_filetype, \
     add_maze_size_to_name, sizeWidthFractal, sizeHeightFractal, animate_solutions, fractal_tessellation, \
     solve_fractal_tessellation, aldous_broder, solve_aldous_broder, dfs, solve_dfs, prims, solve_prims, \
     randomized_kruskal, solve_randomized_kruskal, wilson, solve_wilson, recursive_division, solve_recursive_division, \
     side_winder, solve_side_winder, solve_eller, eller, hunt_and_kill, solve_hunt_and_kill, spiral_backtracker, \
-    solve_spiral_backtracker, sigma, solve_sigma
+    solve_spiral_backtracker, sigma, solve_sigma, solve_unicursal, unicursal
 from solvingMain import solveMaze
 
 # if you get an error that a path is not found make a directory
@@ -27,22 +28,6 @@ from solvingMain import solveMaze
 # Simple and fast.
 # For each cell, it randomly removes either the north or west wall (or a specific set of directions).
 # This algorithm is less effective for creating complex mazes but is very efficient.
-
-# TODO Growing Tree Algorithm:
-# A generalization of both Prim’s and Recursive Backtracker.
-# Maintains a list of cells, starting with a single random cell.
-# It selects a cell from the list (using different strategies), marks an adjacent unvisited cell, removes the wall
-# between them, and adds the new cell to the list.
-# Strategies include always choosing the most recently added cell (DFS-like), a random cell (Prim-like), or a
-# combination of strategies.
-
-
-# TODO Unicursal Maze
-# Description: This algorithm creates mazes with a single continuous path.
-# Steps:
-# Create a simple closed curve (e.g., a serpentine path).
-# Use a variation of the wall-following algorithm to carve out the path.
-# Ensure the maze has no branches or dead ends.
 
 # TODO Amoeba Maze
 # Description: This algorithm uses cellular automata to generate organic-looking mazes.
@@ -234,4 +219,19 @@ if __name__ == '__main__':
         )
         print("Sigma done")
         if solve_sigma:
+            solveMaze(maze, "Sigma", animate=animate_solutions)
+
+    if unicursal:
+        print("Unicursal start")
+        UnicursalMazeGenerator(
+            maze
+        ).run(
+            maze_filename=mazes_dir + "Unicursal_maze" +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + mazes_filetype,
+            animate=animate,
+            animation_filename=animations_dir + 'Unicursal_maze_animation' +
+            (f"_{sizeWidth}x{sizeHeight}" if add_maze_size_to_name else "") + animations_filetype
+        )
+        print("Unicursal done")
+        if solve_unicursal:
             solveMaze(maze, "Sigma", animate=animate_solutions)

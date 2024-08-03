@@ -31,7 +31,9 @@ side_winder = run_generator
 eller = run_generator
 hunt_and_kill = run_generator
 spiral_backtracker = run_generator
-sigma = True
+sigma = run_generator
+unicursal = True
+
 
 # what mazes need to be solved (if not generated they will also not be solved)
 run_solve = True
@@ -46,7 +48,8 @@ solve_side_winder = run_solve
 solve_eller = run_solve
 solve_hunt_and_kill = run_solve
 solve_spiral_backtracker = run_solve
-solve_sigma = True
+solve_sigma = run_solve
+solve_unicursal = True
 
 # what solvers need to be used
 run_solver = True
