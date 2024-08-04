@@ -16,6 +16,7 @@ mazes_filetype = ".png"
 animations_filetype = ".mp4"
 solutions_filetype = ".png"
 solutions_animation_filetype = ".mp4"
+origin_shift_iterations = 300
 
 
 # what mazes need to be generated
@@ -33,7 +34,8 @@ hunt_and_kill = run_generator
 spiral_backtracker = run_generator
 sigma = run_generator
 unicursal = run_generator
-binary_tree = True
+binary_tree = run_generator
+origin_shift = True
 
 
 # what mazes need to be solved (if not generated they will also not be solved)
@@ -51,7 +53,8 @@ solve_hunt_and_kill = run_solve
 solve_spiral_backtracker = run_solve
 solve_sigma = run_solve
 solve_unicursal = run_solve
-solve_binary_tree = True
+solve_binary_tree = run_solve
+solve_origin_shift = run_solve
 
 # what solvers need to be used
 run_solver = True
