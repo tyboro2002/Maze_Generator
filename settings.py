@@ -35,7 +35,7 @@ spiral_backtracker = run_generator
 sigma = run_generator
 unicursal = run_generator
 binary_tree = run_generator
-origin_shift = True
+origin_shift = run_generator
 
 
 # what mazes need to be solved (if not generated they will also not be solved)

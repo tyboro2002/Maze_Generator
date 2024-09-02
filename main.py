@@ -23,9 +23,6 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, 
     solve_origin_shift
 from solvingMain import solveMaze
 
-# if you get an error that a path is not found make a directory
-# TODO make a function to do this
-
 
 def run_generation(generator, run_gen: bool, run_solve: bool, short_name: str, map_name: str, maze: Maze):
     if run_gen:

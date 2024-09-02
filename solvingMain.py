@@ -9,9 +9,12 @@ from solver_algorithms.Dijkstra import DijkstraSolver
 from solver_algorithms.Left_hand import LeftHandRuleSolver
 from solver_algorithms.Random_mouse import RandomMouseSolver
 from solver_algorithms.Right_hand import RightHandRuleSolver
+import os
 
 
 def solveMaze(maze, name, animate=False):
+    # print(f"working in {solutions_animation_dir + name}")
+    os.makedirs(solutions_animation_dir + name, exist_ok=True)
     if random_mouse_solver:
         print(f"{name} maze solve with Random mouse start")
         maze.save_path(
