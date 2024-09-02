@@ -20,7 +20,7 @@ origin_shift_iterations = 300
 
 
 # what mazes need to be generated
-run_generator = False
+run_generator = True
 fractal_tessellation = run_generator
 aldous_broder = run_generator
 dfs = run_generator
