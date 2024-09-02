@@ -1,3 +1,5 @@
+import os
+
 from Maze import Maze
 from generation_algoritms.Aldous_broder import AldousBroderMazeGenerator
 from generation_algoritms.Origin_shift import OriginShiftGenerator
@@ -19,12 +21,17 @@ from settings import sizeWidth, sizeHeight, animations_dir, animate, mazes_dir, 
     solve_fractal_tessellation, aldous_broder, solve_aldous_broder, dfs, solve_dfs, prims, solve_prims, \
     randomized_kruskal, solve_randomized_kruskal, wilson, solve_wilson, recursive_division, solve_recursive_division, \
     side_winder, solve_side_winder, solve_eller, eller, hunt_and_kill, solve_hunt_and_kill, spiral_backtracker, \
-    solve_spiral_backtracker, sigma, solve_sigma, solve_unicursal, unicursal, binary_tree, solve_binary_tree, origin_shift, \
-    solve_origin_shift
+    solve_spiral_backtracker, sigma, solve_sigma, solve_unicursal, unicursal, binary_tree, solve_binary_tree, \
+    origin_shift, \
+    solve_origin_shift, solutions_dir, solutions_animation_dir
 from solvingMain import solveMaze
 
 
 def run_generation(generator, run_gen: bool, run_solve: bool, short_name: str, map_name: str, maze: Maze):
+    os.makedirs(mazes_dir, exist_ok=True)
+    os.makedirs(animations_dir, exist_ok=True)
+    os.makedirs(solutions_dir, exist_ok=True)
+    os.makedirs(solutions_animation_dir, exist_ok=True)
     if run_gen:
         print(f"{short_name} maze generation start")
         generator(
