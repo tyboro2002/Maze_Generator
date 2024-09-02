@@ -15,6 +15,7 @@ import os
 def solveMaze(maze, name, animate=False):
     # print(f"working in {solutions_animation_dir + name}")
     os.makedirs(solutions_animation_dir + name, exist_ok=True)
+    os.makedirs(solutions_dir + name, exist_ok=True)
     if random_mouse_solver:
         print(f"{name} maze solve with Random mouse start")
         maze.save_path(
